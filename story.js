@@ -266,7 +266,9 @@ const STORY_DATA = {
           ],
           speaker: "Narrator",
           ending: "ending_vessel",
-          choices: []
+          choices: [
+            { text: "Ok!", next: "ending_vessel", stat_effects: {} },
+          ]
         },
 
         "voss_fight_possession": {
