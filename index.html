@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chronicles of Aelthar — A D&D Adventure</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚔️</text></svg>" />
+</head>
+<body>
+
+<!-- ─── BACKGROUND LAYER ──────────────────────────────────── -->
+<div class="bg-layer" aria-hidden="true"></div>
+
+<!-- ─── TRANSITION OVERLAY ───────────────────────────────── -->
+<div id="transition-overlay" aria-hidden="true"></div>
+
+<!-- ─── TOAST CONTAINER ──────────────────────────────────── -->
+<div id="toast-container" aria-live="polite"></div>
+
+<!-- ─── MODAL OVERLAY ────────────────────────────────────── -->
+<div id="modal-overlay" class="overlay" role="dialog" aria-modal="true">
+  <div class="panel modal">
+    <div class="modal-title" id="modal-title">Are you certain?</div>
+    <div class="modal-body" id="modal-body">This action cannot be undone.</div>
+    <div class="modal-actions">
+      <button id="modal-cancel" class="btn btn-secondary">Cancel</button>
+      <button id="modal-confirm" class="btn btn-danger">Confirm</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     PAGE: MAIN MENU
+     ══════════════════════════════════════════════════════════ -->
+<main id="page-menu" class="page" role="main">
+  <div class="menu-title-block">
+    <div class="ornament-dragon" aria-hidden="true">🐉</div>
+    <div class="menu-eyebrow">An Interactive Fantasy Chronicle</div>
+    <h1 class="title-display menu-title">Chronicles<br>of Aelthar</h1>
+    <div class="menu-subtitle">Choose your fate, adventurer</div>
+  </div>
+
+  <div class="panel menu-panel">
+    <div class="divider">
+      <span class="divider-icon">✦</span>
+    </div>
+
+    <div class="menu-buttons">
+      <button id="btn-new-game" class="btn btn-primary" style="font-size:1rem; padding: 0.9rem 2.5rem;">
+        ⚔️ &nbsp;New Game
+      </button>
+      <button id="btn-load-game" class="btn btn-secondary">
+        📜 &nbsp;Load Game
+      </button>
+      <button id="btn-achievements-menu" class="btn btn-secondary">
+        🏆 &nbsp;Achievements
+      </button>
+    </div>
+
+    <div class="divider" style="margin-top:0.5rem;">
+      <span class="divider-icon">⚜</span>
+    </div>
+
+    <p style="font-size:0.72rem; color: var(--ash); text-align:center; font-style:italic; line-height:1.5;">
+      Click to skip narration &nbsp;·&nbsp; Progress auto-saves on endings
+    </p>
+  </div>
+</main>
+
+<!-- ══════════════════════════════════════════════════════════
+     PAGE: CHARACTER CREATION
+     ══════════════════════════════════════════════════════════ -->
+<main id="page-create" class="page" role="main">
+  <div class="panel create-panel">
+
+    <!-- Step 1: Name -->
+    <div class="create-step active" id="create-step-1">
+      <div class="text-center">
+        <div class="label" style="color:var(--gold-dim); margin-bottom:0.5rem;">Chapter I</div>
+        <h2 class="title-section" style="font-size:1.3rem; margin-bottom:0.25rem;">Who Are You?</h2>
+        <p style="font-size:0.85rem; color:var(--ash); font-style:italic;">Enter the name by which legends will know you.</p>
+      </div>
+
+      <div class="divider"><span class="divider-icon">⚜</span></div>
+
+      <label class="label" for="player-name-input">Your Name</label>
+      <input
+        type="text"
+        id="player-name-input"
+        class="input-field"
+        placeholder="e.g. Elara, Thorin, Mira..."
+        maxlength="32"
+        autocomplete="off"
+      />
+
+      <div style="display:flex; gap:0.75rem; margin-top:0.5rem;">
+        <button id="btn-create-back" class="btn btn-secondary" style="flex:1">← Back</button>
+        <button id="btn-create-next" class="btn btn-primary" style="flex:2">Continue →</button>
+      </div>
+    </div>
+
+    <!-- Step 2: Race -->
+    <div class="create-step" id="create-step-2">
+      <div class="text-center">
+        <div class="label" style="color:var(--gold-dim); margin-bottom:0.5rem;">Chapter II</div>
+        <h2 class="title-section" style="font-size:1.3rem; margin-bottom:0.25rem;">Choose Your Race</h2>
+        <p style="font-size:0.85rem; color:var(--ash); font-style:italic;">Your bloodline shapes your strengths.</p>
+      </div>
+
+      <div class="divider"><span class="divider-icon">⚜</span></div>
+
+      <div class="race-grid" id="race-grid"></div>
+
+      <div style="display:flex; gap:0.75rem; margin-top:0.5rem;">
+        <button class="btn btn-secondary" onclick="renderCreateStep(1)" style="flex:1">← Back</button>
+        <button id="btn-create-next" class="btn btn-primary" style="flex:2" onclick="advanceCreateStep()">Continue →</button>
+      </div>
+    </div>
+
+    <!-- Step 3: Class -->
+    <div class="create-step" id="create-step-3">
+      <div class="text-center">
+        <div class="label" style="color:var(--gold-dim); margin-bottom:0.5rem;">Chapter III</div>
+        <h2 class="title-section" style="font-size:1.3rem; margin-bottom:0.25rem;">Choose Your Class</h2>
+        <p style="font-size:0.85rem; color:var(--ash); font-style:italic;">What path have you walked to become a champion?</p>
+      </div>
+
+      <div class="divider"><span class="divider-icon">⚜</span></div>
+
+      <div class="class-grid" id="class-grid"></div>
+
+      <div style="display:flex; gap:0.75rem; margin-top:0.5rem;">
+        <button class="btn btn-secondary" onclick="renderCreateStep(2)" style="flex:1">← Back</button>
+        <button class="btn btn-primary" onclick="advanceCreateStep()" style="flex:2">Begin Your Tale →</button>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<!-- ══════════════════════════════════════════════════════════
+     PAGE: EPISODE SELECTION
+     ══════════════════════════════════════════════════════════ -->
+<main id="page-episodes" class="page" role="main">
+  <div class="panel episodes-panel">
+    <div class="text-center" style="margin-bottom:1rem;">
+      <div class="label" style="color:var(--gold-dim); margin-bottom:0.25rem;">Choose Your Chronicle</div>
+      <h2 class="title-section" style="font-size:1.4rem;">Episode Select</h2>
+    </div>
+
+    <div class="divider"><span class="divider-icon">⚜</span></div>
+
+    <div id="episode-list" style="display:flex; flex-direction:column; gap:0.75rem; margin-top:0.75rem;"></div>
+
+    <div class="divider" style="margin-top:1rem;"><span class="divider-icon">✦</span></div>
+
+    <div style="text-align:center;">
+      <button id="btn-episodes-back" class="btn btn-secondary">← Back to Character</button>
+    </div>
+  </div>
+</main>
+
+<!-- ══════════════════════════════════════════════════════════
+     PAGE: GAMEPLAY
+     ══════════════════════════════════════════════════════════ -->
+<main id="page-game" class="page" role="main" style="padding:0; justify-content:flex-start; flex-direction:row;">
+
+  <!-- Mobile Header (hidden on desktop) -->
+  <header class="game-mobile-header" style="width:100%;">
+    <span style="font-family:var(--font-display); font-size:0.8rem; color:var(--gold);">Chronicles of Aelthar</span>
+    <div style="display:flex; gap:0.5rem;">
+      <button class="btn btn-secondary" onclick="saveGame()" style="font-size:0.65rem; padding:0.4rem 0.7rem;">💾</button>
+      <button class="btn btn-secondary" onclick="showPage('menu')" style="font-size:0.65rem; padding:0.4rem 0.7rem;">✕</button>
+    </div>
+  </header>
+
+  <!-- Sidebar -->
+  <aside class="game-sidebar" aria-label="Character info">
+    <div class="sidebar-title">⚔ Aelthar ⚔</div>
+
+    <!-- Character portrait -->
+    <div class="char-portrait">
+      <span class="portrait-icon" id="sidebar-portrait-icon">🧑</span>
+      <div class="char-name" id="sidebar-char-name">Adventurer</div>
+      <div class="char-tags" id="sidebar-char-tags">Human · Warrior</div>
+    </div>
+
+    <!-- Stats -->
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">Vitals</div>
+      <div class="stat-bar-container">
+
+        <div class="stat-row" id="stat-hp-row">
+          <span class="stat-label">HP</span>
+          <div class="stat-bar">
+            <div class="stat-fill hp" id="stat-hp" style="width:100%"></div>
+          </div>
+          <span class="stat-value" id="stat-hp-val">100/100</span>
+        </div>
+
+        <div class="stat-row">
+          <span class="stat-label" style="font-size:0.55rem;">SOUL</span>
+          <div class="stat-bar">
+            <div class="stat-fill morality" id="stat-morality" style="width:50%"></div>
+          </div>
+          <span class="stat-value" id="stat-morality-val">50</span>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Achievements in sidebar -->
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">Endings Found</div>
+      <div id="sidebar-achievements">
+        <div class="achievement-chip" style="font-style:italic;opacity:0.5;">None yet...</div>
+      </div>
+    </div>
+
+    <!-- Actions -->
+    <div class="sidebar-actions">
+      <button id="btn-save" class="btn btn-secondary">💾 Save</button>
+      <button id="btn-achievements-game" class="btn btn-secondary">🏆 Endings</button>
+      <button id="btn-exit-game" class="btn btn-danger">✕ Exit</button>
+    </div>
+  </aside>
+
+  <!-- Main Game Area -->
+  <section class="game-main" id="game-main">
+
+    <!-- Scene header -->
+    <header class="scene-header">
+      <div class="scene-location" id="scene-location">The Kingdom of Aelthar</div>
+      <h2 class="scene-title" id="scene-title">Loading...</h2>
+    </header>
+
+    <!-- Narration Panel -->
+    <article
+      class="panel narration-panel"
+      id="narration-panel"
+      title="Click to skip typing"
+      style="cursor:pointer;"
+      aria-live="polite"
+    >
+      <div class="narration-speaker" id="narration-speaker">Narrator</div>
+      <div class="narration-text" id="narration-text"></div>
+    </article>
+
+    <!-- Choices -->
+    <section class="choices-section" id="choices-section">
+      <div class="choices-label">What do you do?</div>
+      <div class="choices-list" id="choices-list" role="list"></div>
+    </section>
+
+  </section>
+</main>
+
+<!-- ══════════════════════════════════════════════════════════
+     PAGE: ENDING
+     ══════════════════════════════════════════════════════════ -->
+<main id="page-ending" class="page" role="main">
+  <div class="panel ending-panel">
+    <span class="ending-icon" id="ending-icon">📖</span>
+
+    <div class="ending-badge">Ending Reached</div>
+    <h2 class="ending-title" id="ending-title">The End</h2>
+    <div class="ending-name" id="ending-name">Ending: Unknown</div>
+    <div class="ending-rarity common" id="ending-rarity">common</div>
+
+    <div class="divider"><span class="divider-icon">⚜</span></div>
+
+    <div class="ending-narration" id="ending-narration"></div>
+
+    <div class="divider"><span class="divider-icon">✦</span></div>
+
+    <div class="ending-actions">
+      <button id="btn-play-again" class="btn btn-primary">↺ Play Again</button>
+      <button id="btn-achievements-ending" class="btn btn-secondary">🏆 Endings</button>
+      <button id="btn-main-menu-ending" class="btn btn-secondary">⚔ Main Menu</button>
+    </div>
+  </div>
+</main>
+
+<!-- ══════════════════════════════════════════════════════════
+     PAGE: ACHIEVEMENTS
+     ══════════════════════════════════════════════════════════ -->
+<main id="page-achievements" class="page" role="main">
+  <div class="panel achievements-panel">
+    <div class="text-center" style="margin-bottom:1rem;">
+      <div class="label" style="color:var(--gold-dim); margin-bottom:0.25rem;">Deeds of Legend</div>
+      <h2 class="title-section" style="font-size:1.4rem;">Endings Discovered</h2>
+      <p style="font-size:0.8rem; color:var(--ash); font-style:italic; margin-top:0.25rem;">
+        Every tale has many endings. Seek them all.
+      </p>
+    </div>
+
+    <div class="divider"><span class="divider-icon">⚜</span></div>
+
+    <div class="achievement-grid" id="achievement-grid"></div>
+
+    <div class="divider" style="margin-top:1rem;"><span class="divider-icon">✦</span></div>
+
+    <div style="text-align:center;">
+      <button id="btn-achievements-back" class="btn btn-secondary">← Return</button>
+    </div>
+  </div>
+</main>
+
+<!-- Scripts -->
+<script src="story.js"></script>
+<script src="script.js"></script>
+
+</body>
+</html>
