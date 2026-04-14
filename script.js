@@ -1,11 +1,11 @@
 // ============================================================
-// CHRONICLES OF AELTHAR — Game Engine
+// KRONIK AELTHAR — Mesin Permainan
 // script.js
 // ============================================================
 
 'use strict';
 
-// ─── GAME STATE ──────────────────────────────────────────────
+// ─── STATUS PERMAINAN ──────────────────────────────────────────────
 const GameState = {
   player: {
     name: '',
@@ -15,31 +15,37 @@ const GameState = {
     classIcon: '',
     hp: 100,
     maxHp: 100,
-    morality: 50,   // 0 = corrupt, 100 = saintly
+    morality: 50,   // 0 = korup, 100 = suci
+  },
+  // Variabel tersembunyi efek kupu-kupu (Episode 2)
+  butterfly: {
+    trust: 0,       // kepercayaan NPC
+    corruption: 0,  // pengaruh korupsi
+    knowledge: 0,   // pengetahuan yang ditemukan
   },
   currentEpisode: null,
   currentScene: null,
-  achievements: [],      // list of ending_id strings
-  history: [],           // scene id history
+  achievements: [],      // daftar string ending_id
+  history: [],           // riwayat id adegan
   isTyping: false,
 };
 
-// ─── RACE / CLASS DATA ───────────────────────────────────────
+// ─── DATA RAS / KELAS ───────────────────────────────────────
 const RACES = [
-  { id: 'human',  name: 'Human',  icon: '🧑', desc: 'Adaptable & driven. +5 Morality' },
-  { id: 'elf',    name: 'Elf',    icon: '🧝', desc: 'Ancient wisdom. +5 Max HP' },
-  { id: 'dwarf',  name: 'Dwarf',  icon: '⛏️', desc: 'Hardy & stubborn. +10 Max HP' },
-  { id: 'orc',    name: 'Orc',    icon: '🪖', desc: 'Fierce & fearless. Extra choice power' },
+  { id: 'human',  name: 'Manusia',  icon: '🧑', desc: 'Mudah beradaptasi & tekun. +5 Moralitas' },
+  { id: 'elf',    name: 'Elf',      icon: '🧝', desc: 'Kebijaksanaan kuno. +5 HP Maks' },
+  { id: 'dwarf',  name: 'Kurcaci',  icon: '⛏️', desc: 'Tangguh & keras kepala. +10 HP Maks' },
+  { id: 'orc',    name: 'Orc',      icon: '🪖', desc: 'Ganas & tanpa rasa takut. Kekuatan pilihan ekstra' },
 ];
 
 const CLASSES = [
-  { id: 'warrior', name: 'Warrior', icon: '⚔️', desc: 'Heavy armor. Wins combat easier' },
-  { id: 'mage',    name: 'Mage',    icon: '🔮', desc: 'Arcane power. Reveals hidden options' },
-  { id: 'rogue',   name: 'Rogue',   icon: '🗡️', desc: 'Stealth & guile. Better scouting' },
-  { id: 'cleric',  name: 'Cleric',  icon: '✝️', desc: 'Holy power. Stronger vs undead' },
+  { id: 'warrior', name: 'Prajurit', icon: '⚔️', desc: 'Baju besi berat. Memenangkan pertempuran lebih mudah' },
+  { id: 'mage',    name: 'Penyihir', icon: '🔮', desc: 'Kekuatan arkana. Mengungkap pilihan tersembunyi' },
+  { id: 'rogue',   name: 'Penggelap', icon: '🗡️', desc: 'Senyap & licik. Pengintaian lebih baik' },
+  { id: 'cleric',  name: 'Klerik',   icon: '✝️', desc: 'Kekuatan suci. Lebih kuat melawan yang tak-mati' },
 ];
 
-// ─── DOM REFS ────────────────────────────────────────────────
+// ─── REFERENSI DOM ────────────────────────────────────────────────────
 const $ = id => document.getElementById(id);
 const Pages = {
   menu:         $('page-menu'),
@@ -50,7 +56,7 @@ const Pages = {
   achievements: $('page-achievements'),
 };
 
-// ─── PAGE NAVIGATION ────────────────────────────────────────
+// ─── NAVIGASI HALAMAN ────────────────────────────────────────
 function showPage(name) {
   const overlay = $('transition-overlay');
   overlay.classList.add('fade-in');
@@ -61,19 +67,20 @@ function showPage(name) {
   }, 350);
 }
 
-// ─── LOCAL STORAGE ───────────────────────────────────────────
+// ─── PENYIMPANAN LOKAL ───────────────────────────────────────────────
 const SAVE_KEY = 'aelthar_save';
 
 function saveGame() {
   const data = {
     player: { ...GameState.player },
+    butterfly: { ...GameState.butterfly },
     currentEpisode: GameState.currentEpisode,
     currentScene: GameState.currentScene,
     achievements: [...GameState.achievements],
     history: [...GameState.history],
   };
   localStorage.setItem(SAVE_KEY, JSON.stringify(data));
-  showToast('📜 Progress saved to the chronicles.');
+  showToast('📜 Perkembangan tersimpan ke dalam kronik.');
 }
 
 function loadGame() {
@@ -82,6 +89,7 @@ function loadGame() {
   try {
     const data = JSON.parse(raw);
     Object.assign(GameState, data);
+    if (!GameState.butterfly) GameState.butterfly = { trust: 0, corruption: 0, knowledge: 0 };
     return true;
   } catch {
     return false;
@@ -96,7 +104,7 @@ function clearSave() {
   localStorage.removeItem(SAVE_KEY);
 }
 
-// ─── TOAST NOTIFICATIONS ─────────────────────────────────────
+// ─── NOTIFIKASI TOAST ─────────────────────────────────────
 function showToast(msg, duration = 3000) {
   const container = $('toast-container');
   const toast = document.createElement('div');
@@ -109,18 +117,17 @@ function showToast(msg, duration = 3000) {
   }, duration);
 }
 
-// ─── TYPING EFFECT ───────────────────────────────────────────
+// ─── EFEK MENGETIK ───────────────────────────────────────────────
 let typingTimeout = null;
 
 function typeText(container, paragraphs, onDone) {
   GameState.isTyping = true;
   container.innerHTML = '';
   const allText = paragraphs.join('\n\n');
-  // Replace player tokens
   const processed = allText
-    .replace(/{NAME}/g, GameState.player.name || 'Adventurer')
-    .replace(/{CLASS}/g, GameState.player.class || 'hero')
-    .replace(/{RACE}/g, GameState.player.race || 'unknown');
+    .replace(/{NAME}/g, GameState.player.name || 'Petualang')
+    .replace(/{CLASS}/g, GameState.player.class || 'pahlawan')
+    .replace(/{RACE}/g, GameState.player.race || 'tak diketahui');
 
   const paras = processed.split('\n\n');
   let paraIdx = 0;
@@ -159,19 +166,20 @@ function skipTyping(container, paragraphs) {
   if (typingTimeout) clearTimeout(typingTimeout);
   GameState.isTyping = false;
   const processed = paragraphs.join('\n\n')
-    .replace(/{NAME}/g, GameState.player.name || 'Adventurer')
-    .replace(/{CLASS}/g, GameState.player.class || 'hero')
-    .replace(/{RACE}/g, GameState.player.race || 'unknown');
+    .replace(/{NAME}/g, GameState.player.name || 'Petualang')
+    .replace(/{CLASS}/g, GameState.player.class || 'pahlawan')
+    .replace(/{RACE}/g, GameState.player.race || 'tak diketahui');
 
   container.innerHTML = processed.split('\n\n')
     .map(p => `<p>${p}</p>`)
     .join('');
 }
 
-// ─── STAT SYSTEM ─────────────────────────────────────────────
+// ─── SISTEM STATISTIK ─────────────────────────────────────────────
 function applyStatEffects(effects) {
   if (!effects) return;
   const p = GameState.player;
+  const b = GameState.butterfly;
 
   if (effects.hp) {
     p.hp = Math.min(p.maxHp, Math.max(0, p.hp + effects.hp));
@@ -181,6 +189,11 @@ function applyStatEffects(effects) {
     p.morality = Math.min(100, Math.max(0, p.morality + effects.morality));
     flashStat('stat-morality');
   }
+  // Variabel tersembunyi efek kupu-kupu
+  if (effects.trust !== undefined)      b.trust      = Math.max(0, b.trust      + effects.trust);
+  if (effects.corruption !== undefined) b.corruption = Math.max(0, b.corruption + effects.corruption);
+  if (effects.knowledge !== undefined)  b.knowledge  = Math.max(0, b.knowledge  + effects.knowledge);
+
   updateSidebar();
 }
 
@@ -188,25 +201,21 @@ function flashStat(id) {
   const el = $(id);
   if (!el) return;
   el.classList.remove('stat-flash');
-  void el.offsetWidth; // reflow
+  void el.offsetWidth;
   el.classList.add('stat-flash');
 }
 
 function updateSidebar() {
   const p = GameState.player;
-  // Name & tags
   const nameEl = $('sidebar-char-name');
   const tagEl = $('sidebar-char-tags');
-  if (nameEl) nameEl.textContent = p.name || 'Adventurer';
+  if (nameEl) nameEl.textContent = p.name || 'Petualang';
   if (tagEl) tagEl.textContent = `${p.race} ${p.class}`;
 
-  // Portrait icon
   const raceData = RACES.find(r => r.name === p.race);
-  const classData = CLASSES.find(c => c.name === p.class);
   const portraitEl = $('sidebar-portrait-icon');
   if (portraitEl) portraitEl.textContent = raceData?.icon || '🧑';
 
-  // Stat bars
   const hpFill = $('stat-hp');
   const hpVal = $('stat-hp-val');
   if (hpFill) hpFill.style.width = `${(p.hp / p.maxHp) * 100}%`;
@@ -217,12 +226,11 @@ function updateSidebar() {
   if (morFill) morFill.style.width = `${p.morality}%`;
   if (morVal) morVal.textContent = p.morality;
 
-  // Achievements in sidebar
   const achList = $('sidebar-achievements');
   if (achList) {
     achList.innerHTML = '';
     if (GameState.achievements.length === 0) {
-      achList.innerHTML = '<div class="achievement-chip" style="font-style:italic;opacity:0.5;">None yet...</div>';
+      achList.innerHTML = '<div class="achievement-chip" style="font-style:italic;opacity:0.5;">Belum ada...</div>';
     } else {
       GameState.achievements.forEach(endId => {
         const endData = findEnding(endId);
@@ -245,33 +253,57 @@ function findEnding(endId) {
   return null;
 }
 
-// ─── SCENE RENDERING ─────────────────────────────────────────
+// ─── RENDERING ADEGAN ─────────────────────────────────────────────
 function renderScene(episodeId, sceneId) {
   GameState.currentEpisode = episodeId;
   GameState.currentScene = sceneId;
   GameState.history.push(sceneId);
 
   const scene = getScene(episodeId, sceneId);
-  if (!scene) { console.error('Scene not found:', sceneId); return; }
+  if (!scene) { console.error('Adegan tidak ditemukan:', sceneId); return; }
 
-  // If this is an ending scene, go to ending page
   if (scene.type === 'ending') {
     renderEnding(scene);
     return;
   }
 
+  // Untuk adegan pengecekan akhiran ep2, tentukan akhiran berdasarkan variabel butterfly
+  if (sceneId === 'ep2_resolve_ending') {
+    const b = GameState.butterfly;
+    // Rahasia: dilihat danau DAN percayai Elira
+    if (b.knowledge >= 2 && b.trust >= 3) {
+      renderScene(episodeId, 'ep2_ending_loop');
+      return;
+    }
+    // Korupsi tinggi
+    if (b.corruption >= 3) {
+      renderScene(episodeId, 'ep2_ending_hollow_king');
+      return;
+    }
+    // Pengetahuan tinggi
+    if (b.knowledge >= 3) {
+      renderScene(episodeId, 'ep2_ending_truth_seeker');
+      return;
+    }
+    // Kepercayaan tinggi
+    if (b.trust >= 2) {
+      renderScene(episodeId, 'ep2_ending_lightbearer');
+      return;
+    }
+    // Semuanya rendah
+    renderScene(episodeId, 'ep2_ending_lost_soul');
+    return;
+  }
+
   showPage('game');
 
-  // Scene header
   const titleEl = $('scene-title');
   if (titleEl) titleEl.textContent = scene.title || '';
 
-  // Narration
   const narText = $('narration-text');
   const narSpeaker = $('narration-speaker');
-  if (narSpeaker) narSpeaker.textContent = scene.speaker || 'Narrator';
+  if (narSpeaker) narSpeaker.textContent = scene.speaker || 'Narator';
 
-  // Choices hidden during typing
   const choicesSection = $('choices-section');
   if (choicesSection) choicesSection.style.opacity = '0';
 
@@ -285,7 +317,6 @@ function renderScene(episodeId, sceneId) {
     });
   }
 
-  // Background tint
   const gameMain = $('game-main');
   if (gameMain && scene.bg) {
     gameMain.setAttribute('data-bg', scene.bg);
@@ -311,9 +342,7 @@ function renderChoices(scene, episodeId) {
     btn.addEventListener('click', () => {
       if (GameState.isTyping) return;
       applyStatEffects(choice.stat_effects);
-      // Disable all choices
       list.querySelectorAll('.choice-btn').forEach(b => b.disabled = true);
-      // Navigate
       setTimeout(() => renderScene(episodeId, choice.next), 300);
     });
 
@@ -321,17 +350,15 @@ function renderChoices(scene, episodeId) {
   });
 }
 
-// ─── ENDING ──────────────────────────────────────────────────
+// ─── AKHIRAN ──────────────────────────────────────────────────────────────────
 function renderEnding(scene) {
   showPage('ending');
 
-  // Unlock achievement
   if (scene.ending_id && !GameState.achievements.includes(scene.ending_id)) {
     GameState.achievements.push(scene.ending_id);
-    setTimeout(() => showToast(`🏆 Ending unlocked: "${scene.ending_name}"!`, 4000), 800);
+    setTimeout(() => showToast(`🏆 Akhiran terbuka: "${scene.ending_name}"!`, 4000), 800);
   }
 
-  // Populate ending page
   const iconEl = $('ending-icon');
   const titleEl = $('ending-title');
   const nameEl = $('ending-name');
@@ -339,10 +366,11 @@ function renderEnding(scene) {
   const narEl = $('ending-narration');
 
   if (iconEl) iconEl.textContent = scene.ending_icon || '📖';
-  if (titleEl) titleEl.textContent = scene.title || 'The End';
-  if (nameEl) nameEl.textContent = `Ending: ${scene.ending_name}`;
+  if (titleEl) titleEl.textContent = scene.title || 'Tamat';
+  if (nameEl) nameEl.textContent = `Akhiran: ${scene.ending_name}`;
   if (rarityEl) {
-    rarityEl.textContent = scene.rarity || 'common';
+    const rarityLabels = { common: 'biasa', uncommon: 'tidak biasa', rare: 'langka', secret: 'rahasia' };
+    rarityEl.textContent = rarityLabels[scene.rarity] || scene.rarity || 'biasa';
     rarityEl.className = `ending-rarity ${scene.rarity || 'common'}`;
   }
   if (narEl) {
@@ -353,11 +381,10 @@ function renderEnding(scene) {
       .join('');
   }
 
-  // Auto-save progress
   saveGame();
 }
 
-// ─── CHARACTER CREATION ──────────────────────────────────────
+// ─── PEMBUATAN KARAKTER ──────────────────────────────────────────────────
 let selectedRace = null;
 let selectedClass = null;
 let createStep = 1;
@@ -367,6 +394,7 @@ function startNewGame() {
   selectedClass = null;
   createStep = 1;
   GameState.player = { name: '', race: '', raceIcon: '', class: '', classIcon: '', hp: 100, maxHp: 100, morality: 50 };
+  GameState.butterfly = { trust: 0, corruption: 0, knowledge: 0 };
   GameState.history = [];
   GameState.currentScene = null;
   GameState.currentEpisode = null;
@@ -426,16 +454,15 @@ function buildClassGrid() {
 function advanceCreateStep() {
   if (createStep === 1) {
     const name = $('player-name-input')?.value.trim();
-    if (!name) { showToast('⚠️ Please enter your name, adventurer.'); return; }
+    if (!name) { showToast('⚠️ Masukkan namamu, petualang.'); return; }
     GameState.player.name = name;
     buildRaceGrid();
     renderCreateStep(2);
 
   } else if (createStep === 2) {
-    if (!selectedRace) { showToast('⚠️ Choose your race, adventurer.'); return; }
+    if (!selectedRace) { showToast('⚠️ Pilih rasamu, petualang.'); return; }
     GameState.player.race = selectedRace.name;
     GameState.player.raceIcon = selectedRace.icon;
-    // Apply race bonus
     if (selectedRace.id === 'dwarf') { GameState.player.maxHp = 110; GameState.player.hp = 110; }
     if (selectedRace.id === 'elf')   { GameState.player.maxHp = 105; GameState.player.hp = 105; }
     if (selectedRace.id === 'human') { GameState.player.morality = 55; }
@@ -443,14 +470,14 @@ function advanceCreateStep() {
     renderCreateStep(3);
 
   } else if (createStep === 3) {
-    if (!selectedClass) { showToast('⚠️ Choose your class, adventurer.'); return; }
+    if (!selectedClass) { showToast('⚠️ Pilih kelasmu, petualang.'); return; }
     GameState.player.class = selectedClass.name;
     GameState.player.classIcon = selectedClass.icon;
     showEpisodeSelect();
   }
 }
 
-// ─── EPISODE SELECTION ───────────────────────────────────────
+// ─── PEMILIHAN EPISODE ───────────────────────────────────────
 function showEpisodeSelect() {
   buildEpisodeList();
   showPage('episodes');
@@ -463,18 +490,22 @@ function buildEpisodeList() {
 
   STORY_DATA.episodes.forEach((ep, i) => {
     const card = document.createElement('div');
-    card.className = 'episode-card' + (i > 0 ? ' locked' : '');
+    card.className = 'episode-card';
     card.innerHTML = `
       <div class="episode-thumb">${ep.thumbnail}</div>
       <div class="episode-info">
-        <div class="episode-subtitle">${ep.subtitle}${i > 0 ? ' — Coming Soon' : ''}</div>
+        <div class="episode-subtitle">${ep.subtitle}</div>
         <div class="episode-title">${ep.title}</div>
         <div class="episode-desc">${ep.description}</div>
       </div>
     `;
-    if (i === 0) {
-      card.addEventListener('click', () => startEpisode(ep.id));
-    }
+    card.addEventListener('click', () => {
+      // Reset butterfly untuk episode 2 saat dimulai
+      if (ep.id === 'ep2') {
+        GameState.butterfly = { trust: 0, corruption: 0, knowledge: 0 };
+      }
+      startEpisode(ep.id);
+    });
     container.appendChild(card);
   });
 }
@@ -487,7 +518,7 @@ function startEpisode(epId) {
   renderScene(epId, ep.startScene);
 }
 
-// ─── ACHIEVEMENTS PAGE ───────────────────────────────────────
+// ─── HALAMAN PENCAPAIAN ───────────────────────────────────────
 function showAchievements() {
   buildAchievementGrid();
   showPage('achievements');
@@ -498,48 +529,57 @@ function buildAchievementGrid() {
   if (!grid) return;
   grid.innerHTML = '';
 
-  // Collect all endings from all episodes
   const allEndings = [];
   for (const ep of STORY_DATA.episodes) {
     for (const [, scene] of Object.entries(ep.scenes)) {
-      if (scene.type === 'ending') allEndings.push(scene);
+      if (scene.type === 'ending') allEndings.push({ ...scene, epTitle: ep.title });
     }
   }
 
-  allEndings.forEach(ending => {
-    const unlocked = GameState.achievements.includes(ending.ending_id);
-    const card = document.createElement('div');
-    card.className = `achievement-full${unlocked ? ' unlocked' : ''}`;
-    card.innerHTML = `
-      <span class="achievement-full-icon">${ending.ending_icon}</span>
-      <div class="achievement-full-name">${unlocked ? ending.ending_name : '???'}</div>
-      <div class="achievement-full-ending">${unlocked ? ending.title : 'Not yet discovered'}</div>
-      <div class="ending-rarity ${ending.rarity}" style="margin-top:0.35rem;font-size:0.6rem">${ending.rarity}</div>
-    `;
-    grid.appendChild(card);
-  });
+  // Kelompokkan per episode
+  const ep1Endings = allEndings.filter(e => e.ending_id && !e.ending_id.startsWith('ep2'));
+  const ep2Endings = allEndings.filter(e => e.ending_id && e.ending_id.startsWith('ep2'));
+
+  function renderGroup(endings, label) {
+    if (endings.length === 0) return;
+    const header = document.createElement('div');
+    header.style.cssText = 'grid-column: 1/-1; text-align:center; font-family:var(--font-title); color:var(--gold-dim); font-size:0.75rem; letter-spacing:0.12em; text-transform:uppercase; margin-top:0.5rem; margin-bottom:0.25rem;';
+    header.textContent = label;
+    grid.appendChild(header);
+
+    endings.forEach(ending => {
+      const unlocked = GameState.achievements.includes(ending.ending_id);
+      const rarityLabels = { common: 'Biasa', uncommon: 'Tidak Biasa', rare: 'Langka', secret: 'Rahasia' };
+      const card = document.createElement('div');
+      card.className = `achievement-full${unlocked ? ' unlocked' : ''}`;
+      card.innerHTML = `
+        <span class="achievement-full-icon">${ending.ending_icon}</span>
+        <div class="achievement-full-name">${unlocked ? ending.ending_name : '???'}</div>
+        <div class="achievement-full-ending">${unlocked ? ending.title : 'Belum ditemukan'}</div>
+        <div class="ending-rarity ${ending.rarity}" style="margin-top:0.35rem;font-size:0.6rem">${rarityLabels[ending.rarity] || ending.rarity}</div>
+      `;
+      grid.appendChild(card);
+    });
+  }
+
+  renderGroup(ep1Endings, '— Episode I: Mahkota yang Hancur —');
+  renderGroup(ep2Endings, '— Episode II: Bisikan yang Berongga —');
 }
 
-// ─── CONFIRM MODAL ───────────────────────────────────────────
+// ─── MODAL KONFIRMASI ───────────────────────────────────────────────
 function showModal(title, body, onConfirm) {
   const overlay = $('modal-overlay');
   const modalTitle = $('modal-title');
   const modalBody = $('modal-body');
-  const confirmBtn = $('modal-confirm');
 
   if (modalTitle) modalTitle.textContent = title;
   if (modalBody) modalBody.textContent = body;
   if (overlay) overlay.classList.add('active');
 
-  if (confirmBtn) {
-    const newBtn = confirmBtn.cloneNode(true);
-    confirmBtn.parentNode.replaceChild(newBtn, newBtn);
-    // Actually just use direct event
-    $('modal-confirm').onclick = () => {
-      overlay.classList.remove('active');
-      onConfirm();
-    };
-  }
+  $('modal-confirm').onclick = () => {
+    overlay.classList.remove('active');
+    onConfirm();
+  };
 }
 
 function closeModal() {
@@ -547,7 +587,7 @@ function closeModal() {
   if (overlay) overlay.classList.remove('active');
 }
 
-// ─── NARRATION SKIP ──────────────────────────────────────────
+// ─── LEWATI NARASI ──────────────────────────────────────────────────
 function handleNarrationClick() {
   if (GameState.isTyping) {
     const narText = $('narration-text');
@@ -556,17 +596,14 @@ function handleNarrationClick() {
       skipTyping(narText, scene.narration || []);
       GameState.isTyping = false;
       const choicesSection = $('choices-section');
-      if (choicesSection) {
-        choicesSection.style.opacity = '1';
-      }
+      if (choicesSection) choicesSection.style.opacity = '1';
       renderChoices(scene, GameState.currentEpisode);
     }
   }
 }
 
-// ─── INIT ─────────────────────────────────────────────────────
+// ─── INISIALISASI ─────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
-  // Load achievements from save (they persist even between runs)
   const raw = localStorage.getItem(SAVE_KEY);
   if (raw) {
     try {
@@ -575,26 +612,26 @@ document.addEventListener('DOMContentLoaded', () => {
     } catch {}
   }
 
-  // Main Menu buttons
+  // Tombol Menu Utama
   $('btn-new-game')?.addEventListener('click', startNewGame);
 
   $('btn-load-game')?.addEventListener('click', () => {
-    if (!hasSave()) { showToast('📜 No saved game found in the chronicles.'); return; }
+    if (!hasSave()) { showToast('📜 Tidak ada simpanan yang ditemukan dalam kronik.'); return; }
     if (loadGame()) {
-      showToast('📖 Chronicles restored. Welcome back, ' + GameState.player.name + '.');
+      showToast('📖 Kronik dipulihkan. Selamat datang kembali, ' + GameState.player.name + '.');
       if (GameState.currentEpisode && GameState.currentScene) {
         renderScene(GameState.currentEpisode, GameState.currentScene);
       } else {
         showEpisodeSelect();
       }
     } else {
-      showToast('⚠️ The chronicles are corrupted. Begin anew.');
+      showToast('⚠️ Kronik rusak. Mulailah dari awal.');
     }
   });
 
   $('btn-achievements-menu')?.addEventListener('click', showAchievements);
 
-  // Character Creation
+  // Pembuatan Karakter
   $('btn-create-next')?.addEventListener('click', advanceCreateStep);
 
   $('btn-create-back')?.addEventListener('click', () => {
@@ -606,28 +643,30 @@ document.addEventListener('DOMContentLoaded', () => {
     if (e.key === 'Enter') advanceCreateStep();
   });
 
-  // Episode Select — back button
+  // Pemilihan Episode — tombol kembali
   $('btn-episodes-back')?.addEventListener('click', () => showPage('create'));
 
-  // Game page buttons
+  // Tombol halaman permainan
   $('btn-save')?.addEventListener('click', saveGame);
   $('btn-exit-game')?.addEventListener('click', () => {
-    showModal('Return to the World Map?', 'Your current progress will be lost unless saved. Are you certain, adventurer?', () => {
+    showModal('Kembali ke Peta Dunia?', 'Perkembanganmu saat ini akan hilang jika tidak disimpan. Apakah kamu yakin, petualang?', () => {
       showPage('menu');
     });
   });
   $('btn-achievements-game')?.addEventListener('click', showAchievements);
 
-  // Narration click to skip typing
+  // Klik narasi untuk melewati pengetikan
   $('narration-panel')?.addEventListener('click', handleNarrationClick);
 
-  // Ending page buttons
+  // Tombol halaman akhiran
   $('btn-play-again')?.addEventListener('click', () => {
-    // Replay same episode from start
     if (GameState.currentEpisode) {
       const ep = STORY_DATA.episodes.find(e => e.id === GameState.currentEpisode);
       if (ep) {
         GameState.history = [];
+        if (ep.id === 'ep2') {
+          GameState.butterfly = { trust: 0, corruption: 0, knowledge: 0 };
+        }
         renderScene(ep.id, ep.startScene);
       }
     }
@@ -636,21 +675,19 @@ document.addEventListener('DOMContentLoaded', () => {
   $('btn-main-menu-ending')?.addEventListener('click', () => showPage('menu'));
   $('btn-achievements-ending')?.addEventListener('click', showAchievements);
 
-  // Achievements back button
+  // Tombol kembali pencapaian
   $('btn-achievements-back')?.addEventListener('click', () => showPage('menu'));
 
-  // Modal close
+  // Tutup modal
   $('modal-cancel')?.addEventListener('click', closeModal);
   $('modal-overlay')?.addEventListener('click', e => {
     if (e.target === $('modal-overlay')) closeModal();
   });
 
-  // Update load button state
   if (!hasSave()) {
     const loadBtn = $('btn-load-game');
     if (loadBtn) loadBtn.disabled = true;
   }
 
-  // Show menu
   showPage('menu');
 });

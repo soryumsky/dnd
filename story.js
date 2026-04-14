@@ -1,17 +1,20 @@
 // ============================================================
-// STORY DATA — Episode 1: The Shattered Crown
-// Node-based branching narrative system
-// Each scene: { id, type, title, narration, speaker, choices, stat_effects }
-// Types: 'scene' | 'ending' | 'combat' | 'stat_check'
+// DATA CERITA — Kronik Aelthar
+// Sistem narasi percabangan berbasis node
+// Setiap adegan: { id, type, title, narration, speaker, choices, stat_effects }
+// Tipe: 'scene' | 'ending' | 'combat' | 'stat_check'
 // ============================================================
 
 const STORY_DATA = {
   episodes: [
+    // ══════════════════════════════════════════════════════
+    // EPISODE 1: MAHKOTA YANG HANCUR
+    // ══════════════════════════════════════════════════════
     {
       id: "ep1",
-      title: "The Shattered Crown",
+      title: "Mahkota yang Hancur",
       subtitle: "Episode I",
-      description: "A dark curse grips the kingdom of Aelthar. A forgotten relic—the Shattered Crown—holds the key to salvation, or damnation. Your path begins at the edge of the Greyfen Swamp.",
+      description: "Kutukan gelap mencengkeram kerajaan Aelthar. Relik kuno—Mahkota yang Hancur—memegang kunci keselamatan, atau kebinasaan. Perjalananmu dimulai di tepi Rawa Greyfen.",
       thumbnail: "⚔️",
       startScene: "intro",
       scenes: {
@@ -20,736 +23,1342 @@ const STORY_DATA = {
         "intro": {
           id: "intro",
           type: "scene",
-          title: "The Road to Greyfen",
+          title: "Jalan Menuju Greyfen",
           bg: "swamp",
           narration: [
-            "The year is 1312 of the Third Age. A plague of undead has spread from the cursed marshes of Greyfen, threatening to consume the Kingdom of Aelthar.",
-            "You are {NAME}, a {CLASS} of {RACE} blood, summoned by a desperate king to seek the Shattered Crown—an ancient relic said to bind the dead to their graves.",
-            "The village of Mosswick lies ahead, its torchlight flickering like a dying ember against the moonless sky. Screams drift across the bog."
+            "Tahun 1312 Zaman Ketiga. Wabah makhluk tak-mati telah menyebar dari rawa-rawa terkutuk Greyfen, mengancam untuk melahap Kerajaan Aelthar.",
+            "Kamu adalah {NAME}, seorang {CLASS} berdarah {RACE}, dipanggil oleh seorang raja yang putus asa untuk mencari Mahkota yang Hancur—relik kuno yang konon mengikat orang mati ke kubur mereka.",
+            "Desa Mosswick ada di depan, cahaya obor-nya berkedip seperti bara sekarat di langit tanpa bulan. Teriakan histeris mengambang melintasi rawa."
           ],
-          speaker: "Narrator",
+          speaker: "Narator",
           choices: [
-            { text: "Rush into the village to help the villagers", next: "mosswick_rush", stat_effects: { morality: +10, hp: -5 } },
-            { text: "Scout the perimeter before entering", next: "mosswick_scout", stat_effects: { morality: 0 } },
-            { text: "Seek high ground to assess the situation", next: "mosswick_observe", stat_effects: {} }
+            { text: "Bergegas masuk ke desa untuk membantu warga", next: "mosswick_rush", stat_effects: { morality: +10, hp: -5 } },
+            { text: "Intai keliling sebelum masuk", next: "mosswick_scout", stat_effects: { morality: 0 } },
+            { text: "Cari dataran tinggi untuk menilai situasi", next: "mosswick_observe", stat_effects: {} }
           ]
         },
 
-        // ─── MOSSWICK PATHS ──────────────────────────────────
+        // ─── JALUR MOSSWICK ──────────────────────────────────
         "mosswick_rush": {
           id: "mosswick_rush",
           type: "scene",
-          title: "Into the Fire",
+          title: "Terjun ke Api",
           bg: "village",
           narration: [
-            "You charge through the rotting gate. Three undead grotesques claw at a barricaded door. A child's sobbing echoes from within.",
-            "Your instincts take over. You draw your weapon and strike, drawing the monsters away from the barricade.",
-            "The fight is brutal and short. You drive them back into the fog, but not before one rakes a gash across your side.",
-            "The door bursts open. An old woman rushes out, clutching a young boy. 'Bless you, stranger!' she cries. 'The Elder—he knows about the Crown. Seek him at the Chapel!'"
+            "Kamu menerobos gerbang yang membusuk. Tiga mayat hidup menggores pintu yang dibarikade. Isak tangis seorang anak bergema dari dalamnya.",
+            "Nalurimu mengambil alih. Kamu menghunus senjata dan menyerang, menarik perhatian monster-monster itu dari barikade.",
+            "Pertarungan berlangsung brutal dan singkat. Kamu mengusir mereka kembali ke kabut, tapi tidak sebelum salah satunya menggoreskan luka di sisimu.",
+            "Pintu meledak terbuka. Seorang wanita tua bergegas keluar, menggendong seorang anak laki-laki. 'Semoga dewata membalasmu, musafir!' teriaknya. 'Tetua—dia tahu tentang Mahkota. Cari dia di Kapel!'"
           ],
-          speaker: "Narrator",
+          speaker: "Narator",
           choices: [
-            { text: "Head immediately to the Chapel", next: "chapel_arrive", stat_effects: {} },
-            { text: "Ask the woman about the undead plague first", next: "woman_info", stat_effects: { morality: +5 } }
+            { text: "Langsung menuju Kapel", next: "chapel_arrive", stat_effects: {} },
+            { text: "Tanyakan dulu kepada wanita itu tentang wabah", next: "woman_info", stat_effects: { morality: +5 } }
           ]
         },
 
         "mosswick_scout": {
           id: "mosswick_scout",
           type: "scene",
-          title: "Eyes in the Dark",
+          title: "Mata di Kegelapan",
           bg: "swamp",
           narration: [
-            "You circle the village quietly, stepping over roots and murky puddles. The undead cluster near the northern gate—perhaps eight of them, listless and slow.",
-            "You spot a hooded figure slipping out through a gap in the southern fence. He moves with purpose, heading toward the bog.",
-            "You have a choice: follow the mysterious figure, or enter the now-less-guarded village."
+            "Kamu mengelilingi desa dengan diam, melangkahi akar dan genangan berlumpur. Makhluk tak-mati berkerumun di gerbang utara—sekitar delapan dari mereka, lamban dan lesu.",
+            "Kamu melihat sosok bertudung menyelinap keluar melalui celah di pagar selatan. Gerakannya penuh tujuan, menuju ke rawa.",
+            "Kamu punya pilihan: ikuti sosok misterius itu, atau masuki desa yang kini kurang terjaga."
           ],
-          speaker: "Narrator",
+          speaker: "Narator",
           choices: [
-            { text: "Follow the hooded figure into the bog", next: "follow_figure", stat_effects: {} },
-            { text: "Enter through the southern gap", next: "chapel_arrive", stat_effects: {} },
-            { text: "Lure the undead away with a distraction", next: "distraction", stat_effects: { morality: +5 } }
+            { text: "Ikuti sosok bertudung ke rawa", next: "follow_figure", stat_effects: {} },
+            { text: "Masuk melalui celah selatan", next: "chapel_arrive", stat_effects: {} },
+            { text: "Alihkan perhatian makhluk tak-mati dengan gangguan", next: "distraction", stat_effects: { morality: +5 } }
           ]
         },
 
         "mosswick_observe": {
           id: "mosswick_observe",
           type: "scene",
-          title: "The Watcher",
+          title: "Si Pengamat",
           bg: "swamp",
           narration: [
-            "You climb a dead oak at the swamp's edge. Below, Mosswick writhes with chaos. But your eye is drawn to something stranger—a pale blue light pulsing beneath the Chapel's stained window.",
-            "More curious: a cloaked figure moves deliberately through the carnage, untouched by the undead. They enter the Chapel.",
-            "You memorize the layout: two clusters of undead, one clear southern path, and whatever secret hides in that Chapel."
+            "Kamu memanjat pohon ek mati di tepi rawa. Di bawah, Mosswick bergeliat dalam kekacauan. Tapi matamu tertarik pada sesuatu yang lebih aneh—cahaya biru pucat berdenyut di balik jendela kaca patri Kapel.",
+            "Lebih mencurigakan: sosok berjubah bergerak dengan sengaja di tengah kekacauan, tak tersentuh oleh makhluk tak-mati. Mereka memasuki Kapel.",
+            "Kamu menghafal tata letak: dua kelompok makhluk tak-mati, satu jalur selatan yang bersih, dan rahasia apa pun yang tersembunyi di Kapel itu."
           ],
-          speaker: "Narrator",
+          speaker: "Narator",
           choices: [
-            { text: "Descend and take the southern path to the Chapel", next: "chapel_arrive", stat_effects: {} },
-            { text: "Study the undead movement patterns (take extra time)", next: "chapel_arrive_prepared", stat_effects: { morality: 0 } }
+            { text: "Turun dan ambil jalur selatan ke Kapel", next: "chapel_arrive", stat_effects: {} },
+            { text: "Pelajari pola gerakan makhluk tak-mati (butuh waktu ekstra)", next: "chapel_arrive_prepared", stat_effects: { morality: 0 } }
           ]
         },
 
-        // ─── SIDE PATHS ──────────────────────────────────────
+        // ─── JALUR SAMPINGAN ──────────────────────────────────────────
         "woman_info": {
           id: "woman_info",
           type: "scene",
-          title: "The Elder's Warning",
+          title: "Peringatan Tetua",
           bg: "village",
           narration: [
-            "'It started three nights ago,' the old woman says, her voice hollow with exhaustion. 'Elder Voss was performing a ritual. Said he found something—a broken crown in the bog. Claimed it would protect us.'",
-            "'Instead it called THEM.' She spits toward a drifting corpse. 'He's locked himself in the Chapel. Won't come out. Won't let us in. But he's... changed.'",
-            "The boy tugs your sleeve. 'I saw him talking to the dead ones. Through the window. Like they were listening.'"
+            "'Ini dimulai tiga malam lalu,' kata wanita tua itu, suaranya hampa karena kelelahan. 'Tetua Voss sedang melakukan ritual. Katanya dia menemukan sesuatu—mahkota patah di rawa. Mengklaim itu akan melindungi kita.'",
+            "'Sebagai gantinya ia malah memanggil MEREKA.' Dia meludah ke arah mayat yang melayang-layang. 'Dia mengurung diri di Kapel. Tidak mau keluar. Tidak membiarkan kami masuk. Tapi dia... berubah.'",
+            "Anak laki-laki itu menarik lengan bajumu. 'Aku melihatnya berbicara dengan yang mati. Melalui jendela. Seperti mereka mendengarkan.'"
           ],
-          speaker: "Old Woman",
+          speaker: "Wanita Tua",
           choices: [
-            { text: "Go to the Chapel with this knowledge", next: "chapel_arrive_warned", stat_effects: {} },
-            { text: "Find a weapon to prepare for Elder Voss", next: "chapel_arrive_armed", stat_effects: {} }
+            { text: "Pergi ke Kapel dengan pengetahuan ini", next: "chapel_arrive_warned", stat_effects: {} },
+            { text: "Cari senjata untuk persiapan menghadapi Tetua Voss", next: "chapel_arrive_armed", stat_effects: {} }
           ]
         },
 
         "follow_figure": {
           id: "follow_figure",
           type: "scene",
-          title: "Into the Bog",
+          title: "Ke Dalam Rawa",
           bg: "swamp",
           narration: [
-            "The figure moves fast but you keep pace, feet sinking into cold mud. After ten minutes he stops at a mossy stone shrine half-swallowed by the earth.",
-            "He pulls back his hood. A young man, no older than twenty, with hollow eyes that catch the moonlight like coins. He does not look surprised to see you.",
-            "'I knew someone would follow,' he says softly. 'I am Daran. Apprentice to Elder Voss—or I was, before he found the Crown and lost his mind to it. I know where the first shard lies. But it is guarded by something I cannot face alone.'"
+            "Sosok itu bergerak cepat tapi kamu mengikutinya, kaki tenggelam ke lumpur yang dingin. Setelah sepuluh menit dia berhenti di kuil batu berlumut yang setengah ditelan bumi.",
+            "Dia menarik tudungnya. Seorang pemuda, tidak lebih dari dua puluh tahun, dengan mata cekung yang menangkap cahaya bulan seperti koin. Dia tidak tampak terkejut melihatmu.",
+            "'Aku tahu ada seseorang yang akan mengikuti,' katanya pelan. 'Aku Daran. Murid Tetua Voss—atau dulu, sebelum beliau menemukan Mahkota dan kehilangan kewarasannya. Aku tahu di mana serpihan pertama berada. Tapi dijaga oleh sesuatu yang tidak bisa kuhadapi sendirian.'"
           ],
           speaker: "Daran",
           choices: [
-            { text: "\"I will help you. Tell me everything.\"", next: "daran_alliance", stat_effects: { morality: +10 } },
-            { text: "\"Why should I trust you?\"", next: "daran_distrust", stat_effects: {} },
-            { text: "\"Lead me to the shard now.\"", next: "shard_direct", stat_effects: {} }
+            { text: "\"Aku akan membantumu. Ceritakan segalanya.\"", next: "daran_alliance", stat_effects: { morality: +10 } },
+            { text: "\"Mengapa aku harus mempercayaimu?\"", next: "daran_distrust", stat_effects: {} },
+            { text: "\"Antar aku ke serpihan itu sekarang.\"", next: "shard_direct", stat_effects: {} }
           ]
         },
 
         "distraction": {
           id: "distraction",
           type: "scene",
-          title: "The Ruse",
+          title: "Tipu Muslihat",
           bg: "village",
           narration: [
-            "You find a wagon and give it a push down the slope. It crashes into a fence with a magnificent clatter—perfect.",
-            "The undead swarm toward the noise. The village is momentarily clear. You sprint for the Chapel, slipping through shadows.",
-            "A sense of grim satisfaction settles over you. Sometimes the smart play is the right play."
+            "Kamu menemukan sebuah gerobak dan mendorongnya menuruni lereng. Gerobak itu menabrak pagar dengan keributan yang luar biasa—sempurna.",
+            "Makhluk tak-mati berkerumun menuju kebisingan itu. Desa pun sejenak bersih. Kamu berlari menuju Kapel, menyelinap di antara bayangan.",
+            "Rasa puas yang suram menyelimuti dirimu. Kadang langkah cerdas adalah langkah yang benar."
           ],
-          speaker: "Narrator",
+          speaker: "Narator",
           choices: [
-            { text: "Enter the Chapel", next: "chapel_arrive", stat_effects: {} }
+            { text: "Masuki Kapel", next: "chapel_arrive", stat_effects: {} }
           ]
         },
 
-        // ─── CHAPEL ──────────────────────────────────────────
+        // ─── KAPEL ──────────────────────────────────────────
         "chapel_arrive": {
           id: "chapel_arrive",
           type: "scene",
-          title: "The Chapel of Ash",
+          title: "Kapel Abu",
           bg: "chapel",
           narration: [
-            "The Chapel door is unlocked but heavy. Inside, pews have been overturned into a rough circle. Candles burn in patterns that hurt to look at directly.",
-            "At the altar kneels Elder Voss—a gaunt man in his sixties, his white robes streaked with dark stains. Before him, on a velvet cloth, rest two blackened fragments of a crown.",
-            "He does not turn. 'Another hero,' he rasps. 'Come to take what you don't understand.'"
+            "Pintu Kapel tidak terkunci tapi berat. Di dalam, bangku-bangku telah dibalikkan menjadi lingkaran kasar. Lilin-lilin menyala dalam pola yang menyakitkan jika dipandang langsung.",
+            "Di altar berlutut Tetua Voss—pria kurus berusia enam puluhan, jubah putihnya dinodai noda-noda gelap. Di hadapannya, di atas kain beludru, tergeletak dua serpihan mahkota yang menghitam.",
+            "Dia tidak berbalik. 'Pahlawan lain,' ujarnya serak. 'Datang untuk mengambil apa yang tidak kamu mengerti.'"
           ],
-          speaker: "Narrator",
+          speaker: "Narator",
           choices: [
-            { text: "\"Tell me about the Crown, Elder. I want to understand.\"", next: "voss_talk", stat_effects: { morality: +5 } },
-            { text: "\"Step away from the crown fragments. Now.\"", next: "voss_confront", stat_effects: {} },
-            { text: "Try to grab the crown fragments while he's kneeling", next: "voss_grab", stat_effects: { morality: -15 } }
+            { text: "\"Ceritakan tentang Mahkota itu, Tetua. Aku ingin mengerti.\"", next: "voss_talk", stat_effects: { morality: +5 } },
+            { text: "\"Menjauh dari serpihan mahkota itu. Sekarang.\"", next: "voss_confront", stat_effects: {} },
+            { text: "Coba rebut serpihan mahkota saat dia berlutut", next: "voss_grab", stat_effects: { morality: -15 } }
           ]
         },
 
         "chapel_arrive_prepared": {
           id: "chapel_arrive_prepared",
           type: "scene",
-          title: "The Chapel of Ash",
+          title: "Kapel Abu",
           bg: "chapel",
           narration: [
-            "With the undead patterns memorized, you slip through their patrol gaps as if dancing between raindrops. You reach the Chapel unseen.",
-            "Inside: Elder Voss kneels at the altar, two crown fragments before him. You noticed something the others wouldn't—from above, you saw a third figure hiding in the choir loft. Someone is already watching Voss.",
-            "'Another hero,' Voss rasps without turning. 'Come to take what you don't understand.'"
+            "Dengan pola makhluk tak-mati yang sudah kamu hafal, kamu menyelinap di antara celah patroli mereka seolah menari di antara tetes hujan. Kamu tiba di Kapel tanpa terdeteksi.",
+            "Di dalam: Tetua Voss berlutut di altar, dua serpihan mahkota di hadapannya. Kamu melihat sesuatu yang tidak akan dilihat orang lain—dari atas, kamu melihat sosok ketiga bersembunyi di balkon paduan suara. Seseorang sudah mengawasi Voss.",
+            "'Pahlawan lain,' Voss menggerutu tanpa berbalik. 'Datang untuk mengambil apa yang tidak kamu mengerti.'"
           ],
-          speaker: "Narrator",
+          speaker: "Narator",
           choices: [
-            { text: "\"Tell me about the Crown, Elder.\"", next: "voss_talk", stat_effects: { morality: +5 } },
-            { text: "Call out the hidden watcher in the loft", next: "reveal_watcher", stat_effects: {} },
-            { text: "\"Step away from the crown fragments.\"", next: "voss_confront", stat_effects: {} }
+            { text: "\"Ceritakan tentang Mahkota itu, Tetua.\"", next: "voss_talk", stat_effects: { morality: +5 } },
+            { text: "Panggil pengintai tersembunyi di balkon", next: "reveal_watcher", stat_effects: {} },
+            { text: "\"Menjauh dari serpihan mahkota itu.\"", next: "voss_confront", stat_effects: {} }
           ]
         },
 
         "chapel_arrive_warned": {
           id: "chapel_arrive_warned",
           type: "scene",
-          title: "The Fallen Elder",
+          title: "Tetua yang Terjatuh",
           bg: "chapel",
           narration: [
-            "Inside the Chapel, Elder Voss kneels at the altar. The old woman's words echo in your mind—he was talking to the dead ones.",
-            "You watch him more carefully now. His lips move in a silent rhythm. The crown fragments before him pulse in time with his breathing.",
-            "He turns slowly, and you see his eyes: pupils fully dilated, reflecting no light. He is no longer entirely himself.",
-            "'You should not have come,' he says—but in two voices. His own, and something older beneath it."
+            "Di dalam Kapel, Tetua Voss berlutut di altar. Kata-kata wanita tua itu bergema di benakmu—dia berbicara dengan yang mati.",
+            "Kamu mengamatinya lebih cermat sekarang. Bibirnya bergerak dalam irama yang diam. Serpihan mahkota di hadapannya berdenyut seiring napasnya.",
+            "Dia berbalik perlahan, dan kamu melihat matanya: pupil sepenuhnya melebar, tidak memantulkan cahaya. Dia tidak lagi sepenuhnya dirinya sendiri.",
+            "'Seharusnya kamu tidak datang,' katanya—tapi dalam dua suara. Suaranya sendiri, dan sesuatu yang lebih tua di bawahnya."
           ],
-          speaker: "Elder Voss",
+          speaker: "Tetua Voss",
           choices: [
-            { text: "\"Fight whatever possesses you, Elder!\"", next: "voss_fight_possession", stat_effects: { morality: +10 } },
-            { text: "\"The possession is incomplete. How do I free you?\"", next: "voss_talk", stat_effects: { morality: +15 } },
-            { text: "Strike before he can act", next: "voss_strike", stat_effects: { morality: -10 } }
+            { text: "\"Lawan apa pun yang merasukim mu, Tetua!\"", next: "voss_fight_possession", stat_effects: { morality: +10 } },
+            { text: "\"Rasukan itu belum sempurna. Bagaimana cara membebaskanmu?\"", next: "voss_talk", stat_effects: { morality: +15 } },
+            { text: "Serang sebelum dia bisa bertindak", next: "voss_strike", stat_effects: { morality: -10 } }
           ]
         },
 
         "chapel_arrive_armed": {
           id: "chapel_arrive_armed",
           type: "scene",
-          title: "Armed and Ready",
+          title: "Bersenjata dan Siap",
           bg: "chapel",
           narration: [
-            "You find a smith's hammer on a fallen workbench—cold iron, a good weight. Iron weakens cursed things.",
-            "Inside the Chapel, Elder Voss kneels at the altar. The crown fragments glow with a faint, sickly light.",
-            "'Another hero,' he rasps. 'Come to take what you don't understand.'"
+            "Kamu menemukan palu pandai besi di bangku yang tumbang—besi dingin, dengan berat yang pas. Besi melemahkan hal-hal terkutuk.",
+            "Di dalam Kapel, Tetua Voss berlutut di altar. Serpihan mahkota bersinar dengan cahaya samar dan menjijikkan.",
+            "'Pahlawan lain,' ujarnya serak. 'Datang untuk mengambil apa yang tidak kamu mengerti.'"
           ],
-          speaker: "Narrator",
+          speaker: "Narator",
           choices: [
-            { text: "\"Surrender the Crown, Elder.\" (Cold iron in hand)", next: "voss_iron_demand", stat_effects: {} },
-            { text: "\"Tell me about the Crown first.\"", next: "voss_talk", stat_effects: {} }
+            { text: "\"Serahkan Mahkota itu, Tetua.\" (Besi dingin di tangan)", next: "voss_iron_demand", stat_effects: {} },
+            { text: "\"Ceritakan dulu tentang Mahkota itu.\"", next: "voss_talk", stat_effects: {} }
           ]
         },
 
-        // ─── VOSS ENCOUNTERS ─────────────────────────────────
+        // ─── PERTEMUAN VOSS ─────────────────────────────────────────
         "voss_talk": {
           id: "voss_talk",
           type: "scene",
-          title: "The Elder Speaks",
+          title: "Tetua Berbicara",
           bg: "chapel",
           narration: [
-            "Voss is silent for a long moment. Then: 'The Shattered Crown was forged by King Maloreth the Undying three centuries ago. It does not protect the living. It controls the dead.'",
-            "'I thought... if I could wield it... I could drive the plague away. Instead, it began calling to me. Whispering. Now I cannot let go.'",
-            "He holds up his hands. The crown fragments have left dark veins crawling up his skin.",
-            "'There are three shards. I have two. The third is in the Sunken Vault beneath this very chapel. If you destroy all three... the plague ends. But I... I may not survive the unbinding.'"
+            "Voss diam untuk sesaat yang panjang. Kemudian: 'Mahkota yang Hancur ditempa oleh Raja Maloreth Sang Abadi tiga abad lalu. Itu bukan untuk melindungi yang hidup. Itu untuk mengendalikan yang mati.'",
+            "'Aku berpikir... jika aku bisa menggunakannya... aku bisa mengusir wabah itu. Sebaliknya, ia mulai memanggilku. Berbisik. Sekarang aku tidak bisa melepaskannya.'",
+            "Dia mengangkat tangannya. Serpihan mahkota telah meninggalkan urat-urat gelap yang merayap naik ke kulitnya.",
+            "'Ada tiga serpihan. Aku punya dua. Yang ketiga ada di Gudang Bawah Tanah tepat di bawah kapel ini. Jika kamu menghancurkan ketiganya... wabah akan berakhir. Tapi aku... mungkin tidak akan selamat dari perlepasan itu.'"
           ],
-          speaker: "Elder Voss",
+          speaker: "Tetua Voss",
           choices: [
-            { text: "\"Where is the Sunken Vault? Take me there.\"", next: "vault_entrance", stat_effects: {} },
-            { text: "\"I'll find another way to save you AND stop the plague.\"", next: "find_another_way", stat_effects: { morality: +15 } },
-            { text: "\"The plague must end. Whatever the cost.\"", next: "vault_entrance", stat_effects: { morality: -5 } }
+            { text: "\"Di mana Gudang Bawah Tanah itu? Antarkan aku.\"", next: "vault_entrance", stat_effects: {} },
+            { text: "\"Aku akan mencari cara lain untuk menyelamatkanmu DAN menghentikan wabah.\"", next: "find_another_way", stat_effects: { morality: +15 } },
+            { text: "\"Wabah harus berakhir. Apa pun harganya.\"", next: "vault_entrance", stat_effects: { morality: -5 } }
           ]
         },
 
         "voss_confront": {
           id: "voss_confront",
           type: "scene",
-          title: "The Elder Rises",
+          title: "Tetua Bangkit",
           bg: "chapel",
           narration: [
-            "Voss rises to his feet slowly. He is taller than you expected, and the shadows in the Chapel seem to gather around him.",
-            "'You would command me? In MY chapel?' His voice carries a resonance that shakes the windowpanes.",
-            "Then something shifts in his expression—a flash of the man beneath the curse. 'No. No, you're right. I... I can feel it pulling. Using me.'",
-            "He sinks to his knees again. 'Please. The Vault beneath—the third shard is there. Destroy them all. It's the only way.'"
+            "Voss bangkit berdiri perlahan. Dia lebih tinggi dari yang kamu kira, dan bayangan-bayangan di Kapel tampak berkumpul di sekelilingnya.",
+            "'Kamu berani memerintahku? Di KAPELKU?' Suaranya membawa resonansi yang mengguncang kaca jendela.",
+            "Kemudian sesuatu bergeser dalam ekspresinya—sekilas kilatan sang manusia di balik kutukan itu. 'Tidak. Tidak, kamu benar. Aku... aku bisa merasakannya menarik-narik. Menggunakanku.'",
+            "Dia berlutut lagi. 'Tolong. Gudang di bawah—serpihan ketiga ada di sana. Hancurkan semuanya. Itulah satu-satunya cara.'"
           ],
-          speaker: "Elder Voss",
+          speaker: "Tetua Voss",
           choices: [
-            { text: "Take the two fragments and head to the Vault", next: "vault_entrance_fragments", stat_effects: {} },
-            { text: "\"Come with me. Face this together.\"", next: "vault_together", stat_effects: { morality: +10 } }
+            { text: "Ambil dua serpihan dan pergi ke Gudang", next: "vault_entrance_fragments", stat_effects: {} },
+            { text: "\"Ikut bersamaku. Hadapi ini bersama.\"", next: "vault_together", stat_effects: { morality: +10 } }
           ]
         },
 
         "voss_grab": {
           id: "voss_grab",
           type: "scene",
-          title: "The Price of Greed",
+          title: "Harga Keserakahan",
           bg: "chapel",
           narration: [
-            "You lunge for the fragments—",
-            "Voss's hand closes around your wrist like a vice. He turns, and his eyes are black as pitch. The thing wearing his face smiles.",
-            "'Good,' it says with his mouth. 'Another vessel.'",
-            "The crown fragments flare white. Pain splits through you. When the light fades, you are kneeling beside Voss, and you can no longer remember why you came here.",
-            "The plague has a new servant."
+            "Kamu menerjang ke arah serpihan-serpihan itu—",
+            "Tangan Voss mencengkeram pergelangan tanganmu seperti ragum. Dia berbalik, dan matanya hitam pekat. Sosok yang mengenakan wajahnya tersenyum.",
+            "'Bagus,' katanya dengan mulutnya. 'Satu wadah lagi.'",
+            "Serpihan mahkota menyala putih. Rasa sakit membelah dirimu. Ketika cahaya memudar, kamu berlutut di samping Voss, dan kamu tidak lagi ingat mengapa kamu datang ke sini.",
+            "Wabah mendapat pelayan baru."
           ],
-          speaker: "Narrator",
+          speaker: "Narator",
           ending: "ending_vessel",
           choices: [
-            { text: "Ok!", next: "ending_vessel", stat_effects: {} },
+            { text: "Oke!", next: "ending_vessel", stat_effects: {} },
           ]
         },
 
         "voss_fight_possession": {
           id: "voss_fight_possession",
           type: "scene",
-          title: "The War Within",
+          title: "Perang di Dalam Diri",
           bg: "chapel",
           narration: [
-            "'Voss! Listen to my voice!'",
-            "The Elder's body seizes. His hands claw at the altar. Two voices war in his throat—his own, ragged and desperate, and the Crown's voice, ancient and cold.",
-            "'I... I remember...' Voss gasps. 'My daughter's name. Lyra. I remember.' The dark veins on his hands recede slightly.",
-            "'The Vault. Beneath the third pew—a trapdoor. The final shard. If you destroy all three pieces... while I still have enough of myself to resist... it might work.'"
+            "'Voss! Dengarkan suaraku!'",
+            "Tubuh Tetua itu kejang. Tangannya mencakar altar. Dua suara berperang di tenggorokannya—suaranya sendiri, terengah-engah dan putus asa, dan suara Mahkota, kuno dan dingin.",
+            "'Aku... aku masih ingat...' Voss megap-megap. 'Nama anakku. Lyra. Aku ingat.' Urat-urat gelap di tangannya sedikit surut.",
+            "'Gudang. Di bawah bangku ketiga—sebuah pintu jebakan. Serpihan terakhir. Jika kamu menghancurkan ketiga bagian itu... sementara aku masih memiliki cukup dari diriku untuk melawan... mungkin akan berhasil.'"
           ],
-          speaker: "Elder Voss",
+          speaker: "Tetua Voss",
           choices: [
-            { text: "Move fast—find the trapdoor to the Vault", next: "vault_entrance", stat_effects: {} },
-            { text: "\"Hold on, Voss. We do this together.\"", next: "vault_together", stat_effects: { morality: +10 } }
+            { text: "Bergerak cepat—temukan pintu jebakan menuju Gudang", next: "vault_entrance", stat_effects: {} },
+            { text: "\"Bertahanlah, Voss. Kita lakukan ini bersama.\"", next: "vault_together", stat_effects: { morality: +10 } }
           ]
         },
 
         "voss_strike": {
           id: "voss_strike",
           type: "scene",
-          title: "Cold Iron",
+          title: "Besi Dingin",
           bg: "chapel",
           narration: [
-            "You strike fast. Voss crumples, unconscious but breathing. The dark light in his eyes fades.",
-            "The two crown fragments lie on the velvet, dimmer now. You take them. They are lighter than you expected—and colder.",
-            "Searching the chapel, you find a trapdoor beneath the third pew. The Vault."
+            "Kamu menyerang cepat. Voss tumbang, tidak sadar tapi masih bernapas. Cahaya gelap di matanya memudar.",
+            "Dua serpihan mahkota tergeletak di beludru, lebih redup sekarang. Kamu mengambilnya. Mereka lebih ringan dari yang kamu kira—dan lebih dingin.",
+            "Mencari-cari di kapel, kamu menemukan pintu jebakan di bawah bangku ketiga. Gudang."
           ],
-          speaker: "Narrator",
+          speaker: "Narator",
           choices: [
-            { text: "Descend into the Vault", next: "vault_entrance_fragments", stat_effects: {} }
+            { text: "Turun ke dalam Gudang", next: "vault_entrance_fragments", stat_effects: {} }
           ]
         },
 
         "voss_iron_demand": {
           id: "voss_iron_demand",
           type: "scene",
-          title: "Cold Iron Commands",
+          title: "Perintah Besi Dingin",
           bg: "chapel",
           narration: [
-            "You hold up the iron hammer. Voss recoils—whatever possesses him fears cold iron.",
-            "'Back,' you say steadily. 'Whatever you are. Back.'",
-            "The dark presence retreats like smoke from fire. Voss collapses, gasping. He looks at his hands—the veins have faded slightly.",
-            "'The... Vault,' he manages. 'The last shard. You must destroy them all. Quickly, before it returns.'"
+            "Kamu mengangkat palu besi. Voss mundur—apa pun yang merasukinya takut pada besi dingin.",
+            "'Mundur,' katamu dengan tenang. 'Siapa pun kamu. Mundur.'",
+            "Kehadiran gelap itu surut seperti asap dari api. Voss ambruk, terengah-engah. Dia melihat tangannya—urat-urat itu sedikit memudar.",
+            "'Gudang,' dia berhasil berkata. 'Serpihan terakhir. Kamu harus menghancurkan semuanya. Cepat, sebelum kembali.'"
           ],
-          speaker: "Elder Voss",
+          speaker: "Tetua Voss",
           choices: [
-            { text: "Secure the two fragments and find the Vault", next: "vault_entrance_fragments", stat_effects: { morality: +5 } },
-            { text: "\"Can you walk? Come with me.\"", next: "vault_together", stat_effects: { morality: +10 } }
+            { text: "Amankan dua serpihan dan temukan Gudang", next: "vault_entrance_fragments", stat_effects: { morality: +5 } },
+            { text: "\"Bisakah kamu berjalan? Ikut bersamaku.\"", next: "vault_together", stat_effects: { morality: +10 } }
           ]
         },
 
         "reveal_watcher": {
           id: "reveal_watcher",
           type: "scene",
-          title: "The Hidden Apprentice",
+          title: "Murid Tersembunyi",
           bg: "chapel",
           narration: [
-            "'Who's in the loft?' you call out.",
-            "A startled noise. Then slow footsteps on the choir stairs. A young man descends—hollow-eyed, nervous, but alive.",
-            "'I am Daran,' he says. 'Apprentice to Elder Voss. I've been watching, trying to find a moment to act, but I...' He swallows. 'I am not brave.'",
-            "'The Vault beneath the chapel holds the final shard of the Crown. But something guards it—something Voss summoned before the corruption took him fully.'"
+            "'Siapa di balkon itu?' kamu berseru.",
+            "Suara terkejut. Kemudian langkah-langkah lambat di tangga paduan suara. Seorang pemuda turun—bermata cekung, gugup, tapi hidup.",
+            "'Aku Daran,' katanya. 'Murid Tetua Voss. Aku sudah mengawasi, mencoba menemukan momen untuk bertindak, tapi aku...' Dia menelan ludah. 'Aku tidak pemberani.'",
+            "'Gudang di bawah kapel menyimpan serpihan terakhir Mahkota. Tapi ada sesuatu yang menjaganya—sesuatu yang Voss panggil sebelum korupsi sepenuhnya menguasainya.'"
           ],
           speaker: "Daran",
           choices: [
-            { text: "\"Help me reach the Vault, Daran.\"", next: "vault_with_daran", stat_effects: { morality: +5 } },
-            { text: "Deal with Voss first, then the Vault", next: "voss_talk", stat_effects: {} }
+            { text: "\"Bantu aku mencapai Gudang, Daran.\"", next: "vault_with_daran", stat_effects: { morality: +5 } },
+            { text: "Berurusan dengan Voss dulu, baru Gudang", next: "voss_talk", stat_effects: {} }
           ]
         },
 
-        // ─── DARAN PATHS ─────────────────────────────────────
+        // ─── JALUR DARAN ─────────────────────────────────────
         "daran_alliance": {
           id: "daran_alliance",
           type: "scene",
-          title: "The Apprentice's Secret",
+          title: "Rahasia Sang Murid",
           bg: "swamp",
           narration: [
-            "Daran exhales with relief. 'Thank you. The Crown was forged by Maloreth the Undying—it does not stop the undead. It commands them. Elder Voss didn't know until it was too late.'",
-            "'There are three shards. The Elder has two. The third is in the Sunken Vault beneath the Chapel, guarded by a draugr knight—one of Maloreth's own guard, entombed with the shard for three centuries.'",
-            "'I have a ritual that can weaken it—but I need time to perform it. Keep it occupied.' He presses a worn journal into your hands. 'My master's notes. They may help.'"
+            "Daran menghela napas lega. 'Terima kasih. Mahkota ditempa oleh Maloreth Sang Abadi—itu tidak menghentikan yang mati. Ia mengendalikan mereka. Tetua Voss tidak mengetahuinya hingga terlambat.'",
+            "'Ada tiga serpihan. Tetua memiliki dua. Yang ketiga ada di Gudang Bawah Tanah di bawah Kapel, dijaga oleh ksatria draugr—salah satu penjaga Maloreth sendiri, dikubur bersama serpihan itu selama tiga abad.'",
+            "'Aku punya ritual yang bisa melemahkannya—tapi aku butuh waktu untuk melakukannya. Tahan perhatiannya.' Dia menekan buku catatan lusuh ke tanganmu. 'Catatan guruku. Mungkin bisa membantu.'"
           ],
           speaker: "Daran",
           choices: [
-            { text: "Go to the Chapel together", next: "vault_with_daran", stat_effects: {} },
-            { text: "Study the journal first (bonus knowledge)", next: "study_journal", stat_effects: { morality: +5 } }
+            { text: "Pergi ke Kapel bersama", next: "vault_with_daran", stat_effects: {} },
+            { text: "Pelajari buku catatan dulu (bonus pengetahuan)", next: "study_journal", stat_effects: { morality: +5 } }
           ]
         },
 
         "daran_distrust": {
           id: "daran_distrust",
           type: "scene",
-          title: "Earned Trust",
+          title: "Kepercayaan yang Diraih",
           bg: "swamp",
           narration: [
-            "Daran doesn't flinch at your suspicion. 'Smart,' he says simply. 'A stranger in a cursed village—reasonable to be careful.'",
-            "He pulls back his sleeve, revealing a sigil burned into his forearm: the Chapel's emblem. 'Apprentice seal. I've served Elder Voss for seven years. The Crown has taken him from me.'",
-            "His voice breaks slightly. 'I just want to save what's left of him. Will you help me?'"
+            "Daran tidak berkedip menghadapi kecurigaanmu. 'Pintar,' katanya sederhana. 'Orang asing di desa terkutuk—wajar untuk berhati-hati.'",
+            "Dia menarik lengan bajunya, memperlihatkan lambang yang terpahat di lengan bawahnya: lambang Kapel. 'Meterai murid. Aku telah mengabdi kepada Tetua Voss selama tujuh tahun. Mahkota telah merampasnya dariku.'",
+            "Suaranya sedikit retak. 'Aku hanya ingin menyelamatkan apa yang tersisa darinya. Maukah kamu membantuku?'"
           ],
           speaker: "Daran",
           choices: [
-            { text: "\"Alright. I believe you. What's the plan?\"", next: "daran_alliance", stat_effects: { morality: +5 } },
-            { text: "\"I work alone. Tell me what I need to know.\"", next: "shard_direct", stat_effects: {} }
+            { text: "\"Baiklah. Aku percayamu. Apa rencananya?\"", next: "daran_alliance", stat_effects: { morality: +5 } },
+            { text: "\"Aku bekerja sendiri. Beritahu apa yang perlu kuketahui.\"", next: "shard_direct", stat_effects: {} }
           ]
         },
 
         "shard_direct": {
           id: "shard_direct",
           type: "scene",
-          title: "Straight to the Point",
+          title: "Langsung ke Intinya",
           bg: "chapel",
           narration: [
-            "You make your way to the Chapel without Daran. He calls after you—'At least take the journal!'—and tosses it to you before melting back into the shadows.",
-            "Inside, Elder Voss kneels at the altar, two crown fragments before him. The room smells of ozone and old blood.",
-            "He does not turn. 'Another hero,' he rasps."
+            "Kamu menuju Kapel tanpa Daran. Dia memanggilmu—'Setidaknya ambil buku catatan ini!'—dan melemparnya padamu sebelum menghilang kembali ke dalam bayangan.",
+            "Di dalam, Tetua Voss berlutut di altar, dua serpihan mahkota di hadapannya. Ruangan itu berbau ozon dan darah lama.",
+            "Dia tidak berbalik. 'Pahlawan lain,' ujarnya serak."
           ],
-          speaker: "Narrator",
+          speaker: "Narator",
           choices: [
-            { text: "\"Tell me about the Crown, Elder.\"", next: "voss_talk", stat_effects: {} },
-            { text: "\"Step away from the crown. Now.\"", next: "voss_confront", stat_effects: {} }
+            { text: "\"Ceritakan tentang Mahkota itu, Tetua.\"", next: "voss_talk", stat_effects: {} },
+            { text: "\"Menjauh dari mahkota itu. Sekarang.\"", next: "voss_confront", stat_effects: {} }
           ]
         },
 
         "study_journal": {
           id: "study_journal",
           type: "scene",
-          title: "The Elder's Notes",
+          title: "Catatan Sang Tetua",
           bg: "swamp",
           narration: [
-            "By moonlight, you read fragments of Elder Voss's journal. The handwriting grows increasingly erratic toward the final pages.",
-            "'The Draugr Knight—Sentinel of Maloreth—can only be truly slain if its anchor shard is destroyed in its presence. Wounding it merely delays.'",
-            "'Cold iron disrupts the Crown's signal. A bearer of the Crown fragments loses some control if iron is introduced nearby.'",
-            "'The Crown's true purpose: not to raise the dead, but to make the living forget they fear death. That is Maloreth's real curse.'",
-            "You close the journal, mind sharper. Daran watches you. 'Ready?'"
+            "Di bawah cahaya bulan, kamu membaca fragmen-fragmen dari buku catatan Tetua Voss. Tulisan tangannya semakin kacau menuju halaman terakhir.",
+            "'Ksatria Draugr—Penjaga Maloreth—hanya bisa benar-benar dibunuh jika serpihan jangkarnya dihancurkan di hadapannya. Melukai hanya menundanya.'",
+            "'Besi dingin mengganggu sinyal Mahkota. Pemegang serpihan Mahkota kehilangan sebagian kendali jika besi diperkenalkan di dekatnya.'",
+            "'Tujuan sejati Mahkota: bukan untuk membangkitkan yang mati, tapi untuk membuat yang hidup lupa bahwa mereka takut mati. Itulah kutukan Maloreth yang sesungguhnya.'",
+            "Kamu menutup buku catatan itu, pikiran menjadi lebih tajam. Daran menatapmu. 'Siap?'"
           ],
-          speaker: "Narrator",
+          speaker: "Narator",
           choices: [
-            { text: "\"Ready. Let's go.\"", next: "vault_with_daran", stat_effects: {} }
+            { text: "\"Siap. Ayo pergi.\"", next: "vault_with_daran", stat_effects: {} }
           ]
         },
 
-        // ─── VAULT PATHS ─────────────────────────────────────
+        // ─── JALUR GUDANG ─────────────────────────────────────
         "find_another_way": {
           id: "find_another_way",
           type: "scene",
-          title: "A Desperate Search",
+          title: "Pencarian yang Putus Asa",
           bg: "chapel",
           narration: [
-            "You search the Chapel frantically—Voss's books, his notes, the altar itself. The old man watches you with haunted eyes, fighting to stay present.",
-            "In a hidden compartment behind a false saint's idol, you find a rolled parchment: the original ritual of Binding. A way to separate a host from the Crown's influence—if performed at the moment of the Crown's destruction.",
-            "'There is a way,' you tell Voss.",
-            "He begins to weep—the first human emotion you've seen from him. 'Then let us end this properly.'"
+            "Kamu mencari-cari Kapel dengan panik—buku-buku Voss, catatannya, altar itu sendiri. Orang tua itu mengawasimu dengan mata yang terbayang-bayang, berjuang untuk tetap ada.",
+            "Di sebuah kompartemen tersembunyi di balik patung orang suci palsu, kamu menemukan sebuah gulungan: ritual Pengikatan asli. Cara untuk memisahkan inang dari pengaruh Mahkota—jika dilakukan pada saat kehancuran Mahkota.",
+            "'Ada caranya,' kamu memberitahu Voss.",
+            "Dia mulai menangis—emosi manusiawi pertama yang kamu lihat darinya. 'Kalau begitu, mari kita akhiri ini dengan benar.'"
           ],
-          speaker: "Narrator",
+          speaker: "Narator",
           choices: [
-            { text: "Take Voss and the fragments to the Vault", next: "vault_together_ritual", stat_effects: { morality: +10 } }
+            { text: "Bawa Voss dan serpihan-serpihan ke Gudang", next: "vault_together_ritual", stat_effects: { morality: +10 } }
           ]
         },
 
         "vault_entrance": {
           id: "vault_entrance",
           type: "scene",
-          title: "The Sunken Vault",
+          title: "Gudang Bawah Tanah",
           bg: "vault",
           narration: [
-            "The trapdoor beneath the third pew groans open, releasing air that smells of centuries. Stone stairs descend into cold darkness.",
-            "Your light reveals a vaulted chamber, its walls carved with reliefs of the dead rising. And at the far end, on a stone dais, the third shard glows with pale malevolence.",
-            "Before it stands the Sentinel—a draugr in ancient plate armor, seven feet tall, its eyes twin points of cold blue fire.",
-            "It turns toward you. Slowly. Deliberately. It has been waiting."
+            "Pintu jebakan di bawah bangku ketiga berderit terbuka, melepaskan udara yang berbau berabad-abad. Tangga batu turun ke dalam kegelapan yang dingin.",
+            "Cahayamu menerangi ruang kubah, dindingnya diukir dengan relief orang-orang mati yang bangkit. Dan di ujung sana, di atas tumpuan batu, serpihan ketiga bersinar dengan kepalsuan yang pucat.",
+            "Di depannya berdiri Sang Penjaga—draugr dalam baju besi kuno, tujuh kaki tingginya, matanya adalah dua titik api biru yang dingin.",
+            "Ia berbalik ke arahmu. Perlahan. Penuh perhitungan. Ia telah menunggu."
           ],
-          speaker: "Narrator",
+          speaker: "Narator",
           choices: [
-            { text: "Charge the Sentinel—hit it hard and fast", next: "sentinel_fight_direct", stat_effects: { hp: -15 } },
-            { text: "Look for a weakness before engaging", next: "sentinel_observe", stat_effects: {} },
-            { text: "Try to reach the shard and destroy it first", next: "sentinel_shard_run", stat_effects: { hp: -10 } }
+            { text: "Serang Sang Penjaga—pukul keras dan cepat", next: "sentinel_fight_direct", stat_effects: { hp: -15 } },
+            { text: "Cari kelemahan sebelum bertempur", next: "sentinel_observe", stat_effects: {} },
+            { text: "Coba raih serpihan dan hancurkan lebih dulu", next: "sentinel_shard_run", stat_effects: { hp: -10 } }
           ]
         },
 
         "vault_entrance_fragments": {
           id: "vault_entrance_fragments",
           type: "scene",
-          title: "The Sunken Vault",
+          title: "Gudang Bawah Tanah",
           bg: "vault",
           narration: [
-            "The two fragments in your hand pulse faster as you descend the stairs—drawn toward the third.",
-            "The Vault opens before you. Stone reliefs of the rising dead line every wall. And there: the Sentinel, armor ancient and massive, eyes burning cold blue.",
-            "But you notice something—the fragment in your hand seems to confuse it slightly. The Sentinel's head tilts, as if receiving contradictory signals.",
-            "You may be able to use this."
+            "Dua serpihan di tanganmu berdenyut lebih cepat saat kamu turun ke tangga—tertarik ke arah yang ketiga.",
+            "Gudang terbuka di hadapanmu. Relief batu orang-orang mati yang bangkit melapisi setiap dinding. Dan di sana: Sang Penjaga, baju besinya kuno dan masif, matanya terbakar biru dingin.",
+            "Tapi kamu memperhatikan sesuatu—serpihan di tanganmu tampak sedikit membingungkannya. Kepala Sang Penjaga miring, seolah menerima sinyal yang bertentangan.",
+            "Mungkin kamu bisa memanfaatkan ini."
           ],
-          speaker: "Narrator",
+          speaker: "Narator",
           choices: [
-            { text: "Use the fragments as bait—lure the Sentinel away from the dais", next: "sentinel_lure", stat_effects: {} },
-            { text: "Direct combat—end this quickly", next: "sentinel_fight_direct", stat_effects: { hp: -15 } }
+            { text: "Gunakan serpihan sebagai umpan—pancing Sang Penjaga menjauh dari tumpuan", next: "sentinel_lure", stat_effects: {} },
+            { text: "Pertempuran langsung—akhiri ini dengan cepat", next: "sentinel_fight_direct", stat_effects: { hp: -15 } }
           ]
         },
 
         "vault_with_daran": {
           id: "vault_with_daran",
           type: "scene",
-          title: "Two Against the Dark",
+          title: "Berdua Melawan Kegelapan",
           bg: "vault",
           narration: [
-            "Daran leads you through a hidden passage behind the altar—a longer route, but it brings you to the Vault's side chamber.",
-            "You peer into the main chamber. The Sentinel stands motionless before the glowing shard.",
-            "'The ritual takes three minutes,' Daran whispers. 'I'll begin. Keep it off me.'",
-            "He begins drawing symbols on the floor with trembling hands. The Sentinel's head slowly turns."
+            "Daran memandumu melalui lorong tersembunyi di balik altar—rute yang lebih panjang, tapi membawamu ke ruang samping Gudang.",
+            "Kamu mengintip ke ruang utama. Sang Penjaga berdiri tak bergerak di depan serpihan yang bersinar.",
+            "'Ritualnya butuh tiga menit,' Daran berbisik. 'Aku akan mulai. Jauhkan ia dariku.'",
+            "Dia mulai menggambar simbol-simbol di lantai dengan tangan yang gemetar. Kepala Sang Penjaga perlahan berbalik."
           ],
-          speaker: "Narrator",
+          speaker: "Narator",
           choices: [
-            { text: "Stand between Daran and the Sentinel", next: "sentinel_protect_daran", stat_effects: { morality: +10, hp: -10 } },
-            { text: "Attack the Sentinel from behind while Daran draws", next: "sentinel_flanked", stat_effects: { hp: -5 } }
+            { text: "Berdiri di antara Daran dan Sang Penjaga", next: "sentinel_protect_daran", stat_effects: { morality: +10, hp: -10 } },
+            { text: "Serang Sang Penjaga dari belakang saat Daran menggambar", next: "sentinel_flanked", stat_effects: { hp: -5 } }
           ]
         },
 
         "vault_together": {
           id: "vault_together",
           type: "scene",
-          title: "Unlikely Allies",
+          title: "Sekutu yang Tidak Terduga",
           bg: "vault",
           narration: [
-            "Voss grips your arm with trembling hands and leads you to the trapdoor. Descending, he fights visible battles with whatever lives in the Crown fragments.",
-            "'The Sentinel,' he gasps, 'will not... attack a bearer of the Crown. I still have enough... of its mark. I can distract it. You must reach the third shard. Smash them all together. Simultaneously.'",
-            "He looks at you with clear eyes—the most lucid he's been. 'I may not survive the unbinding. But I need you to do it anyway. Please.'"
+            "Voss menggenggam lenganmu dengan tangan yang gemetar dan membawamu ke pintu jebakan. Saat turun, dia bertarung dalam pertempuran yang terlihat nyata melawan apa pun yang hidup dalam serpihan Mahkota.",
+            "'Sang Penjaga,' dia megap-megap, 'tidak akan... menyerang pemegang Mahkota. Aku masih memiliki cukup... tanda itu. Aku bisa mengalihkan perhatiannya. Kamu harus mencapai serpihan ketiga. Hancurkan semuanya bersama-sama. Serentak.'",
+            "Dia menatapmu dengan mata yang jernih—paling waras yang pernah dia alami. 'Aku mungkin tidak akan selamat dari perlepasan itu. Tapi aku butuh kamu untuk melakukannya bagaimanapun juga. Tolong.'"
           ],
-          speaker: "Elder Voss",
+          speaker: "Tetua Voss",
           choices: [
-            { text: "\"I understand. Let's do this.\"", next: "vault_climax_together", stat_effects: {} },
-            { text: "\"I won't give up on finding a way to save you.\"", next: "vault_together_ritual", stat_effects: { morality: +15 } }
+            { text: "\"Aku mengerti. Mari kita lakukan ini.\"", next: "vault_climax_together", stat_effects: {} },
+            { text: "\"Aku tidak akan menyerah mencari cara untuk menyelamatkanmu.\"", next: "vault_together_ritual", stat_effects: { morality: +15 } }
           ]
         },
 
         "vault_together_ritual": {
           id: "vault_together_ritual",
           type: "scene",
-          title: "The Binding Ritual",
+          title: "Ritual Pengikatan",
           bg: "vault",
           narration: [
-            "In the Vault, with the Sentinel looming and the shard glowing, you produce the parchment—the Ritual of Binding.",
-            "Voss reads it. His hands shake. 'This... this would work. But someone must perform the ritual on me while I hold the Crown together. The backlash will be...'",
-            "He looks at the Sentinel. Then at you.",
-            "'We have perhaps two minutes before it acts. What do you choose?'"
+            "Di Gudang, dengan Sang Penjaga yang mengancam dan serpihan yang bersinar, kamu mengeluarkan gulungan perkamen—Ritual Pengikatan.",
+            "Voss membacanya. Tangannya gemetar. 'Ini... ini bisa berhasil. Tapi seseorang harus melakukan ritual padaku sementara aku memegang Mahkota bersama-sama. Imbasnya akan...'",
+            "Dia melihat Sang Penjaga. Lalu melihatmu.",
+            "'Kita mungkin punya waktu dua menit sebelum ia bergerak. Apa pilihanmu?'"
           ],
-          speaker: "Elder Voss",
+          speaker: "Tetua Voss",
           choices: [
-            { text: "Perform the Binding Ritual on Voss while he holds the Crown", next: "ending_salvation", stat_effects: {} },
-            { text: "Destroy all three shards—accept that Voss may be lost", next: "ending_sacrifice", stat_effects: {} }
+            { text: "Lakukan Ritual Pengikatan pada Voss sementara dia memegang Mahkota", next: "ending_salvation", stat_effects: {} },
+            { text: "Hancurkan ketiga serpihan—terima bahwa Voss mungkin hilang", next: "ending_sacrifice", stat_effects: {} }
           ]
         },
 
-        // ─── SENTINEL COMBAT SCENES ──────────────────────────
+        // ─── ADEGAN PERTEMPURAN PENJAGA ──────────────────────────────
         "sentinel_fight_direct": {
           id: "sentinel_fight_direct",
           type: "scene",
-          title: "Steel and Bone",
+          title: "Baja dan Tulang",
           bg: "vault",
           narration: [
-            "The Sentinel moves with terrible precision. For all its ancient bones, it fights like a master.",
-            "You take hits. Your shield arm goes numb. But you are faster, and you learn its patterns.",
-            "Blow by blow, you drive it back to the dais. Its armor cracks. Its blue eyes flicker.",
-            "Your moment: while it's staggered, you seize the third shard from the dais."
+            "Sang Penjaga bergerak dengan ketepatan yang mengerikan. Meski terbuat dari tulang belulang kuno, ia bertarung seperti seorang ahli.",
+            "Kamu kena serangan. Lengan perisaimu mati rasa. Tapi kamu lebih cepat, dan kamu mempelajari polanya.",
+            "Pukulan demi pukulan, kamu mendorongnya kembali ke tumpuan. Baju besinya retak. Mata birunya berkelip.",
+            "Momenmu: saat ia terhuyung, kamu merebut serpihan ketiga dari tumpuan."
           ],
-          speaker: "Narrator",
+          speaker: "Narator",
           choices: [
-            { text: "Smash all three shards together on the stone floor", next: "ending_destruction", stat_effects: {} },
-            { text: "Pause—look for a way to end this without full destruction", next: "vault_together_ritual", stat_effects: {} }
+            { text: "Hancurkan ketiga serpihan bersama-sama di lantai batu", next: "ending_destruction", stat_effects: {} },
+            { text: "Berhenti—cari cara untuk mengakhiri ini tanpa kehancuran penuh", next: "vault_together_ritual", stat_effects: {} }
           ]
         },
 
         "sentinel_observe": {
           id: "sentinel_observe",
           type: "scene",
-          title: "Know Your Enemy",
+          title: "Kenali Musuhmu",
           bg: "vault",
           narration: [
-            "You hold still. The Sentinel moves in a slow patrol pattern—three steps left, pause, three steps right. The shard on the dais is the anchor point.",
-            "You notice: every time you move right, the Sentinel tracks right. It responds to movement, not sight.",
-            "If you throw something left and move right—you could reach the dais in that moment of confusion.",
-            "You hurl a loose stone to the left. The Sentinel lurches that direction. You sprint right."
+            "Kamu berdiam diri. Sang Penjaga bergerak dalam pola patroli lambat—tiga langkah ke kiri, berhenti, tiga langkah ke kanan. Serpihan di tumpuan adalah titik jangkar.",
+            "Kamu memperhatikan: setiap kali kamu bergerak ke kanan, Sang Penjaga mengikuti ke kanan. Ia merespons gerakan, bukan penglihatan.",
+            "Jika kamu melempar sesuatu ke kiri dan bergerak ke kanan—kamu bisa mencapai tumpuan di momen kebingungan itu.",
+            "Kamu melempar batu lepas ke kiri. Sang Penjaga terlonjak ke arah itu. Kamu lari ke kanan."
           ],
-          speaker: "Narrator",
+          speaker: "Narator",
           choices: [
-            { text: "Grab the third shard and destroy all three", next: "ending_destruction", stat_effects: {} }
+            { text: "Rebut serpihan ketiga dan hancurkan ketiganya", next: "ending_destruction", stat_effects: {} }
           ]
         },
 
         "sentinel_shard_run": {
           id: "sentinel_shard_run",
           type: "scene",
-          title: "The Run",
+          title: "Larian",
           bg: "vault",
           narration: [
-            "You sprint for the dais. The Sentinel pivots with impossible speed and intercepts—its fist catches you across the shoulder and sends you sprawling.",
-            "You're up before it reaches you. Bloodied but clear-headed. The shard is close. One more push.",
-            "You feint left, go right, and close your fingers around the cold fragment. The Sentinel roars—a sound like ice cracking over a deep lake."
+            "Kamu berlari menuju tumpuan. Sang Penjaga berpivot dengan kecepatan yang mustahil dan menghadang—kepalan tangannya mengenai pundakmu dan menyebarmu.",
+            "Kamu bangkit sebelum ia mencapaimu. Berdarah tapi berpikiran jernih. Serpihan itu sudah dekat. Satu dorongan lagi.",
+            "Kamu berpura-pura ke kiri, lari ke kanan, dan menutup jari-jarimu di sekeliling serpihan yang dingin. Sang Penjaga meraung—suara seperti es yang retak di atas danau yang dalam."
           ],
-          speaker: "Narrator",
+          speaker: "Narator",
           choices: [
-            { text: "Smash all three shards together—end it now", next: "ending_destruction", stat_effects: { hp: -5 } },
-            { text: "Use the pain and anger—channel it into the ritual", next: "vault_together_ritual", stat_effects: {} }
+            { text: "Hancurkan ketiga serpihan bersama-sama—akhiri sekarang", next: "ending_destruction", stat_effects: { hp: -5 } },
+            { text: "Gunakan rasa sakit dan amarah—salurkan ke dalam ritual", next: "vault_together_ritual", stat_effects: {} }
           ]
         },
 
         "sentinel_lure": {
           id: "sentinel_lure",
           type: "scene",
-          title: "The Lure",
+          title: "Pancingan",
           bg: "vault",
           narration: [
-            "You hold the fragments up, let them pulse and glow. The Sentinel tracks the signal—it takes two steps off the dais, then three.",
-            "You back toward the far wall. It follows, confused by the Crown's divided call.",
-            "Your moment: you drop and roll past it, reaching the dais. Your hands close around the third shard. All three pieces together, finally.",
-            "The Sentinel freezes. Then slowly turns."
+            "Kamu mengangkat serpihan-serpihan, membiarkannya berdenyut dan bersinar. Sang Penjaga mengikuti sinyal—dia melangkah dua langkah dari tumpuan, lalu tiga.",
+            "Kamu mundur ke dinding jauh. Ia mengikuti, kebingungan oleh panggilan Mahkota yang terbagi.",
+            "Momenmu: kamu jatuh dan berguling melewatinya, mencapai tumpuan. Tanganmu menutup serpihan ketiga. Ketiga bagian akhirnya bersatu.",
+            "Sang Penjaga membeku. Lalu perlahan berbalik."
           ],
-          speaker: "Narrator",
+          speaker: "Narator",
           choices: [
-            { text: "Smash all three shards before it can recover", next: "ending_destruction", stat_effects: {} }
+            { text: "Hancurkan ketiga serpihan sebelum ia bisa pulih", next: "ending_destruction", stat_effects: {} }
           ]
         },
 
         "sentinel_protect_daran": {
           id: "sentinel_protect_daran",
           type: "scene",
-          title: "Shield and Will",
+          title: "Perisai dan Tekad",
           bg: "vault",
           narration: [
-            "You plant yourself between Daran and the Sentinel. It hits you hard—again, again. You hold.",
-            "Behind you, Daran chants, his voice rising. The symbols on the floor glow gold.",
-            "'Done!' Daran shouts.",
-            "The Sentinel stops. Its armor fractures. Its blue eyes go dark, one after the other, like candles snuffed. It crumples to the floor—ancient bones, nothing more.",
-            "The third shard rolls off the dais, its glow extinguished."
+            "Kamu menempatkan diri di antara Daran dan Sang Penjaga. Ia memukulmu keras—lagi, lagi. Kamu bertahan.",
+            "Di belakangmu, Daran merapal, suaranya meninggi. Simbol-simbol di lantai bersinar emas.",
+            "'Selesai!' Daran berseru.",
+            "Sang Penjaga berhenti. Baju besinya retak. Mata birunya padam, satu demi satu, seperti lilin yang dipadamkan. Ia ambruk ke lantai—tulang-tulang kuno, tidak lebih.",
+            "Serpihan ketiga menggelinding dari tumpuan, cahayanya padam."
           ],
-          speaker: "Narrator",
+          speaker: "Narator",
           choices: [
-            { text: "Bring Daran's ritual and all three shards to the surface for the final unbinding", next: "ending_triumph", stat_effects: {} }
+            { text: "Bawa ritual Daran dan ketiga serpihan ke permukaan untuk perlepasan terakhir", next: "ending_triumph", stat_effects: {} }
           ]
         },
 
         "sentinel_flanked": {
           id: "sentinel_flanked",
           type: "scene",
-          title: "Caught Between",
+          title: "Terjepit di Antara",
           bg: "vault",
           narration: [
-            "Your flanking strike staggers the Sentinel, buying Daran time. It turns on you, ignoring the ritual.",
-            "You dance back, keeping it engaged. Daran's ritual glow brightens. The Sentinel's movements begin to stutter.",
-            "'Now!' Daran shouts.",
-            "The glow surges. The Sentinel collapses mid-swing. The third shard dims and goes cold."
+            "Serangan mengapitmu membuat Sang Penjaga oleng, memberi Daran waktu. Ia berbalik ke arahmu, mengabaikan ritual.",
+            "Kamu mundur, terus membuatnya terlibat. Cahaya ritual Daran semakin terang. Gerakan Sang Penjaga mulai tersendat-sendat.",
+            "'Sekarang!' Daran berseru.",
+            "Cahaya itu melonjak. Sang Penjaga ambruk di tengah ayunan. Serpihan ketiga redup dan menjadi dingin."
           ],
-          speaker: "Narrator",
+          speaker: "Narator",
           choices: [
-            { text: "Take the shard and complete the unbinding above", next: "ending_triumph", stat_effects: {} }
+            { text: "Ambil serpihan dan selesaikan perlepasan di atas", next: "ending_triumph", stat_effects: {} }
           ]
         },
 
         "vault_climax_together": {
           id: "vault_climax_together",
           type: "scene",
-          title: "Together into the Dark",
+          title: "Bersama ke Dalam Kegelapan",
           bg: "vault",
           narration: [
-            "Voss steps forward, Crown fragments in hand. The Sentinel turns—and pauses. It recognizes the Crown's bearer.",
-            "In that moment, you reach the dais, close your hand around the third shard.",
-            "All three pieces respond to each other, pulling together. The cold light intensifies to something almost beautiful.",
-            "'Now,' Voss says calmly. 'Do it now, friend.'"
+            "Voss melangkah maju, serpihan Mahkota di tangannya. Sang Penjaga berbalik—dan berhenti. Ia mengenali pemegang Mahkota.",
+            "Di momen itu, kamu mencapai tumpuan, menutup tangan di sekeliling serpihan ketiga.",
+            "Ketiga bagian merespons satu sama lain, saling menarik. Cahaya dingin meningkat menjadi sesuatu yang hampir indah.",
+            "'Sekarang,' Voss berkata dengan tenang. 'Lakukan sekarang, kawan.'"
           ],
-          speaker: "Elder Voss",
+          speaker: "Tetua Voss",
           choices: [
-            { text: "Smash all three shards simultaneously", next: "ending_sacrifice", stat_effects: {} }
+            { text: "Hancurkan ketiga serpihan secara serentak", next: "ending_sacrifice", stat_effects: {} }
           ]
         },
 
-        // ─── ENDINGS ─────────────────────────────────────────
+        // ─── AKHIRAN ─────────────────────────────────────────
         "ending_destruction": {
           id: "ending_destruction",
           type: "ending",
-          title: "The Crown Shattered",
+          title: "Mahkota Hancur",
           bg: "vault",
           ending_id: "ending_destruction",
-          ending_name: "The Destroyer",
+          ending_name: "Sang Penghancur",
           ending_icon: "💥",
           rarity: "common",
           narration: [
-            "The three fragments come together with a sound like a thunderclap in a cathedral.",
-            "The light is blinding. The Sentinel dissolves. Somewhere above, you hear the undead plague collapse—bodies dropping, the night going suddenly, mercifully quiet.",
-            "When the light fades, you stand in a dark vault with three piles of black ash.",
-            "You climb back to the surface. The village of Mosswick is still standing. The dead stay dead.",
-            "Elder Voss is found slumped at the altar, alive but hollow—as if something essential has been removed along with the curse.",
-            "They call you hero. You accept the title. But at night, you still see the cold blue eyes of the Sentinel, and wonder what other ancient things lie sleeping beneath forgotten chapels."
+            "Ketiga serpihan menyatu dengan suara seperti petir di katedral.",
+            "Cahayanya membutakan. Sang Penjaga larut. Di suatu tempat di atas, kamu mendengar wabah tak-mati ambruk—tubuh-tubuh jatuh, malam menjadi sepi yang tiba-tiba dan penuh rasa syukur.",
+            "Ketika cahaya memudar, kamu berdiri di ruang bawah tanah yang gelap dengan tiga tumpukan abu hitam.",
+            "Kamu naik kembali ke permukaan. Desa Mosswick masih berdiri. Yang mati tetap mati.",
+            "Tetua Voss ditemukan terlipat di altar, hidup tapi hampa—seolah sesuatu yang esensial telah dikeluarkan bersama kutukan itu.",
+            "Mereka menyebutmu pahlawan. Kamu menerima gelar itu. Tapi di malam hari, kamu masih melihat mata biru dingin Sang Penjaga, dan bertanya-tanya hal-hal kuno apa lagi yang tertidur di bawah kapel-kapel yang terlupakan."
           ],
-          speaker: "Narrator"
+          speaker: "Narator"
         },
 
         "ending_salvation": {
           id: "ending_salvation",
           type: "ending",
-          title: "The Unbroken",
+          title: "Yang Tak Terpatahkan",
           bg: "chapel",
           ending_id: "ending_salvation",
-          ending_name: "The Savior",
+          ending_name: "Sang Penyelamat",
           ending_icon: "✨",
           rarity: "rare",
           narration: [
-            "The ritual words fall from your lips like water. Voss shudders—you can see the Crown's grip breaking, dark veins fading, his breathing steadying.",
-            "He holds the three united shards as they pulse and scream with ancient power. He does not break.",
-            "'Let go,' he tells the Crown. 'Your king is long dead. Let go.'",
-            "The shards detonate in a wave of white light that passes through stone, through bone, through every undead thing in the kingdom.",
-            "When it clears, Voss sits on the Vault floor, alive. Wholly himself. Weeping.",
-            "The plague is ended. The Elder lives. And you—you have found that sometimes the hardest path yields the brightest dawn.",
-            "Songs will be sung of this night. Not of destruction, but of compassion in the dark."
+            "Kata-kata ritual jatuh dari bibirmu seperti air. Voss bergidik—kamu bisa melihat cengkeraman Mahkota putus, urat-urat gelap memudar, napasnya menjadi stabil.",
+            "Dia memegang tiga serpihan yang bersatu saat mereka berdenyut dan menjerit dengan kekuatan kuno. Dia tidak patah.",
+            "'Lepaskan,' dia berkata kepada Mahkota. 'Raja-mu sudah lama mati. Lepaskan.'",
+            "Serpihan-serpihan meledak dalam gelombang cahaya putih yang melewati batu, tulang, setiap makhluk tak-mati di kerajaan.",
+            "Ketika cahaya sirna, Voss duduk di lantai Gudang, hidup. Sepenuhnya dirinya sendiri. Menangis.",
+            "Wabah berakhir. Sang Tetua hidup. Dan kamu—kamu telah menemukan bahwa terkadang jalan yang paling sulit menghasilkan fajar yang paling cerah.",
+            "Lagu-lagu akan dinyanyikan tentang malam ini. Bukan tentang kehancuran, tapi tentang belas kasih dalam kegelapan."
           ],
-          speaker: "Narrator"
+          speaker: "Narator"
         },
 
         "ending_sacrifice": {
           id: "ending_sacrifice",
           type: "ending",
-          title: "The Price of Peace",
+          title: "Harga Kedamaian",
           bg: "vault",
           ending_id: "ending_sacrifice",
-          ending_name: "The Unbinder",
+          ending_name: "Sang Perlepas",
           ending_icon: "🕯️",
           rarity: "rare",
           narration: [
-            "The three shards destroy each other in your hands. The light is total.",
-            "Voss makes no sound. He simply... unmakes. The Crown had become too intertwined with what he was.",
-            "The plague dies with it. Every corpse in the kingdom settles back into honest earth. The night becomes still.",
-            "You carry Voss's empty robes from the Vault. You do not tell the villagers what happened—only that the Elder died a hero, which is true.",
-            "Mosswick survives. Aelthar survives. The cost of that survival has a name, and it is Voss, and you will not forget it.",
-            "Years later, you will teach others: some monsters cannot be defeated cleanly. Choose your sacrifices wisely, and never forget who paid for your victories."
+            "Ketiga serpihan saling menghancurkan di tanganmu. Cahayanya total.",
+            "Voss tidak bersuara. Dia hanya... menghilang. Mahkota telah terlalu jauh terjalin dengan apa yang dia miliki.",
+            "Wabah mati bersamanya. Setiap mayat di kerajaan kembali ke tanah yang jujur. Malam menjadi hening.",
+            "Kamu membawa jubah Voss yang kosong keluar dari Gudang. Kamu tidak memberitahu warga apa yang terjadi—hanya bahwa Sang Tetua mati sebagai pahlawan, yang memang benar.",
+            "Mosswick bertahan. Aelthar bertahan. Harga keselamatan itu memiliki nama, dan itu adalah Voss, dan kamu tidak akan melupakannya.",
+            "Bertahun-tahun kemudian, kamu akan mengajar orang lain: beberapa monster tidak bisa dikalahkan dengan bersih. Pilihlah pengorbananmu dengan bijak, dan jangan pernah melupakan siapa yang membayar kemenanganmu."
           ],
-          speaker: "Narrator"
+          speaker: "Narator"
         },
 
         "ending_triumph": {
           id: "ending_triumph",
           type: "ending",
-          title: "The Unlikely Fellowship",
+          title: "Persekutuan yang Tak Terduga",
           bg: "chapel",
           ending_id: "ending_triumph",
-          ending_name: "The Bond-Keeper",
+          ending_name: "Penjaga Ikatan",
           ending_icon: "🤝",
           rarity: "uncommon",
           narration: [
-            "With the Sentinel defeated and all three shards in hand, you and Daran return to the chapel.",
-            "Daran performs the final ritual above Voss's unconscious form. The Crown's power drains safely, drawn into the ritual circle and dispersed.",
-            "When Voss wakes, he does not remember the last three days. He looks at Daran—at you—with clear eyes.",
-            "'You're all right,' Daran breathes, half-laughing, half-weeping.",
-            "The village survives. The Elder lives. Daran becomes his master's peer instead of just his student.",
-            "You leave Mosswick at dawn, the road open before you. You did not do this alone. That is not weakness—that is how great things are done.",
-            "The kingdom names you Friend of Mosswick. But Daran's handshake as you parted means more than any title."
+            "Dengan Sang Penjaga yang dikalahkan dan ketiga serpihan di tangan, kamu dan Daran kembali ke kapel.",
+            "Daran melakukan ritual terakhir di atas tubuh Voss yang tidak sadar. Kekuatan Mahkota terkuras dengan aman, ditarik ke lingkaran ritual dan tersebar.",
+            "Ketika Voss terbangun, dia tidak ingat tiga hari terakhir. Dia melihat Daran—melihatmu—dengan mata yang jernih.",
+            "'Kamu baik-baik saja,' Daran bernapas, setengah tertawa, setengah menangis.",
+            "Desa bertahan. Sang Tetua hidup. Daran menjadi setara gurunya alih-alih sekadar muridnya.",
+            "Kamu meninggalkan Mosswick saat fajar, jalan terbuka di depanmu. Kamu tidak melakukan ini sendirian. Itu bukan kelemahan—itulah cara hal-hal besar dilakukan.",
+            "Kerajaan menyebutmu Sahabat Mosswick. Tapi jabat tangan Daran saat berpisah lebih berarti dari gelar apa pun."
           ],
-          speaker: "Narrator"
+          speaker: "Narator"
         },
 
         "ending_vessel": {
           id: "ending_vessel",
           type: "ending",
-          title: "The Crown's New Voice",
+          title: "Suara Baru Mahkota",
           bg: "chapel",
           ending_id: "ending_vessel",
-          ending_name: "The Fallen",
+          ending_name: "Yang Terjatuh",
           ending_icon: "💀",
           rarity: "secret",
           narration: [
-            "The Crown does not kill you. It has no reason to.",
-            "In the months that follow, two crowns march side by side across the kingdom: Elder Voss and the one who came to stop him.",
-            "The plague spreads. The living retreat. The kingdom of Aelthar becomes something else—a kingdom of the patient dead, waiting for the world to join them.",
-            "Somewhere in the ruin of what you once were, something still remembers choosing wrong.",
-            "But that memory grows fainter every day.",
-            "This is not the ending you wanted. But it is the ending that chose you.",
-            "Some doors, once opened, cannot be closed from the inside."
+            "Mahkota tidak membunuhmu. Tidak ada alasan untuk melakukannya.",
+            "Dalam bulan-bulan yang mengikuti, dua mahkota berbaris berdampingan melintasi kerajaan: Tetua Voss dan orang yang datang untuk menghentikannya.",
+            "Wabah menyebar. Yang hidup mundur. Kerajaan Aelthar menjadi sesuatu yang lain—kerajaan orang-orang mati yang sabar, menunggu dunia untuk bergabung dengan mereka.",
+            "Di suatu tempat dalam reruntuhan dirimu yang dulu, sesuatu masih ingat memilih dengan salah.",
+            "Tapi kenangan itu semakin memudar setiap harinya.",
+            "Ini bukan akhiran yang kamu inginkan. Tapi ini adalah akhiran yang memilihmu.",
+            "Beberapa pintu, sekali terbuka, tidak bisa ditutup dari dalam."
           ],
-          speaker: "Narrator"
+          speaker: "Narator"
+        }
+      }
+    },
+
+    // ══════════════════════════════════════════════════════
+    // EPISODE 2: BISIKAN YANG BERONGGA
+    // ══════════════════════════════════════════════════════
+    {
+      id: "ep2",
+      title: "Bisikan yang Berongga",
+      subtitle: "Episode II",
+      description: "Sebagai 'Yang Ditandai' setelah peristiwa Mahkota, kamu tiba di Lembah Berbisik—di mana realitas tidak stabil dan pilihan-pilihanmu menciptakan riak yang tak terduga. Sistem Efek Kupu-kupu: kepercayaan, korupsi, dan pengetahuan membentuk nasibmu secara tersembunyi.",
+      thumbnail: "🌫️",
+      startScene: "ep2_intro",
+      scenes: {
+
+        // ─── INTRO EP2 ────────────────────────────────────────
+        "ep2_intro": {
+          id: "ep2_intro",
+          type: "scene",
+          title: "Yang Ditandai",
+          bg: "swamp",
+          narration: [
+            "Berminggu-minggu setelah peristiwa Mahkota yang Hancur, kamu masih merasakan bekasnya—bekas tak kasat mata di jiwamu. Orang-orang memanggilmu 'Yang Ditandai'. Beberapa dengan hormat. Beberapa dengan takut.",
+            "Jalan membawamu ke utara, menuju kawasan yang dikenal sebagai Lembah Berbisik. Pedagang-pedagang menghindarinya. Peta tidak mencantumkannya. Mereka yang pernah masuk berbicara tentang bayangan yang bergerak sendiri dan suara yang memanggil nama mereka.",
+            "Kamu merasakan tarikan sebelum kamu melihat kabut. Bukan tarikan yang berbahaya—lebih seperti ingatan akan sesuatu yang belum pernah kamu alami. Lembah sepertinya mengenalmu.",
+            "Di tepi kabut, sesosok wanita berdiri menunggumu."
+          ],
+          speaker: "Narator",
+          choices: [
+            { text: "Dekati wanita itu dengan hati-hati", next: "ep2_meet_elira_trust", stat_effects: { trust: +1 } },
+            { text: "Lewati tanpa berbicara", next: "ep2_meet_elira_ignore", stat_effects: {} },
+            { text: "Ancam dia untuk menjelaskan kehadirannya", next: "ep2_meet_elira_threaten", stat_effects: { corruption: +1 } }
+          ]
+        },
+
+        // ─── PERTEMUAN ELIRA ──────────────────────────────────
+        "ep2_meet_elira_trust": {
+          id: "ep2_meet_elira_trust",
+          type: "scene",
+          title: "Elira, Sang Pendeta",
+          bg: "swamp",
+          narration: [
+            "Wanita itu mengenakan jubah abu-abu pucat yang tampak terlalu tipis untuk udara dingin ini. Matanya—warna amber yang tidak biasa—menatapmu tanpa gentar.",
+            "'Aku sudah menunggumu,' katanya. 'Bukan kamu secara spesifik—tapi seseorang sepertimu. Yang Ditandai.' Dia menunjuk ke arah kabut. 'Namaku Elira. Aku pendeta dari ordo yang dilupakan. Lembah ini sekarat, dan yang membuatnya sekarat tidak bisa dihentikan dari luar.'",
+            "'Aku perlu masuk bersamamu. Ada ritual yang harus dilakukan di Inti Lembah sebelum bulan purnama berikutnya—dua hari dari sekarang. Kamu memiliki tanda yang dibutuhkan untuk melewati penjaga-penjaganya.'",
+            "Matanya mencari wajahmu. 'Aku tidak bisa memaksamu. Tapi jika Lembah ini sepenuhnya runtuh, kota-kota di sekitarnya akan menjadi yang berikutnya.'"
+          ],
+          speaker: "Elira",
+          choices: [
+            { text: "\"Aku percayamu. Mari kita pergi.\"", next: "ep2_broken_village", stat_effects: { trust: +1 } },
+            { text: "\"Aku akan membantumu, tapi aku perlu tahu lebih banyak dulu.\"", next: "ep2_elira_questions", stat_effects: { knowledge: +1 } },
+            { text: "\"Aku akan masuk sendiri. Tunggu di sini.\"", next: "ep2_broken_village_solo", stat_effects: {} }
+          ]
+        },
+
+        "ep2_meet_elira_ignore": {
+          id: "ep2_meet_elira_ignore",
+          type: "scene",
+          title: "Jalan yang Sunyi",
+          bg: "swamp",
+          narration: [
+            "Kamu berjalan melewatinya tanpa sepatah kata. Dia tidak mencoba menghentikanmu.",
+            "'Aku mengerti,' terdengar suaranya di belakangmu, tenang dan tanpa tuduhan. 'Yang Ditandai belajar tidak mudah percaya. Aku akan mengikutimu dari jauh. Bukan untuk memata-matai—tapi di Lembah ini, lebih aman berdua.'",
+            "Entah mengapa, kamu tidak menolak. Mungkin nada suaranya. Mungkin kamu tidak ingin benar-benar sendirian di tempat di mana kabut berbisik namamu.",
+            "Kamu memasuki Lembah, dan dia mengikutimu dengan jarak yang sopan."
+          ],
+          speaker: "Narator",
+          choices: [
+            { text: "Izinkan dia mengikuti", next: "ep2_broken_village", stat_effects: {} },
+            { text: "Masuk lebih cepat dan biarkan dia tertinggal", next: "ep2_broken_village_solo", stat_effects: {} }
+          ]
+        },
+
+        "ep2_meet_elira_threaten": {
+          id: "ep2_meet_elira_threaten",
+          type: "scene",
+          title: "Bayangan yang Panjang",
+          bg: "swamp",
+          narration: [
+            "'Jelaskan dirimu,' kamu berkata dengan tajam, tangan di gagang senjata.",
+            "Wanita itu tidak mundur. Tidak sedikit pun. Matanya amber yang tidak biasa melihatmu dengan sesuatu yang sangat mirip kesedihan.",
+            "'Tentu,' katanya dengan tenang. 'Namaku Elira. Aku pendeta. Aku menunggu karena Lembah ini akan menghancurkan dirimu jika kamu masuk tanpa panduan.' Sebuah jeda. 'Namun keputusanmu ada di tanganmu.'",
+            "Kamu merasakan sesuatu bergeser di udara—seperti lembah mengamati interaksi ini dan mengingatnya."
+          ],
+          speaker: "Elira",
+          choices: [
+            { text: "\"Maaf. Aku terlalu waspada. Ceritakan lebih lanjut.\"", next: "ep2_meet_elira_trust", stat_effects: { trust: +1, corruption: -1 } },
+            { text: "Biarkan dia berbicara tapi tetap curiga", next: "ep2_broken_village", stat_effects: {} },
+            { text: "Masuk ke Lembah tanpa mendengarkan lebih lanjut", next: "ep2_broken_village_solo", stat_effects: {} }
+          ]
+        },
+
+        "ep2_elira_questions": {
+          id: "ep2_elira_questions",
+          type: "scene",
+          title: "Jawaban yang Mengungkapkan",
+          bg: "swamp",
+          narration: [
+            "Elira tampaknya lega karena kamu bertanya. 'Lembah Berbisik terbentuk tiga ratus tahun lalu—pada saat yang sama ketika Mahkota yang kamu hancurkan ditempa, tidak kebetulan. Maloreth juga bereksperimen di sini.'",
+            "'Di Inti Lembah ada Cermin Tidur—artefak yang mencatat semua jiwa yang melewati batas Lembah. Jika ia penuh... ia pecah. Dan semua jiwa yang tersimpan di dalamnya dilepaskan sekaligus. Itu akan menciptakan gelombang tak-mati yang menjadikan wabah Aelthar seperti gangguan kecil.'",
+            "'Ritualku bisa menguras Cermin dengan aman. Tapi hanya Yang Ditandai yang bisa mendekatinya—Cermin mengenali tanda Maloreth.' Dia menatap langsung ke matamu. 'Apakah kamu masuk bersamaku?'"
+          ],
+          speaker: "Elira",
+          choices: [
+            { text: "\"Ya. Kita pergi sekarang.\"", next: "ep2_broken_village", stat_effects: { trust: +1, knowledge: +1 } },
+            { text: "\"Aku akan mempertimbangkannya di perjalanan.\"", next: "ep2_broken_village", stat_effects: { knowledge: +1 } }
+          ]
+        },
+
+        // ─── DESA YANG HANCUR ──────────────────────────────────
+        "ep2_broken_village": {
+          id: "ep2_broken_village",
+          type: "scene",
+          title: "Desa yang Hancur",
+          bg: "village",
+          narration: [
+            "Di dalam kabut Lembah, kamu menemukan sebuah desa—atau apa yang tersisa darinya. Rumah-rumah telah terbakar dan dibangun kembali berkali-kali, dindingnya melapisi diri mereka sendiri seperti cincin pohon.",
+            "Para penyintas berkumpul di sekitar api yang sekarat. Wajah-wajah yang kelelahan—terlalu tua, terlalu muda, atau terlalu hancur untuk dikategorikan. Salah satu dari mereka melihatmu dan berdiri.",
+            "'Yang Ditandai,' kata pria itu. Bukan pertanyaan. 'Kami mendengar seseorang sepertimu akan datang.' Matanya mencari Elira, mengangguk seolah mengenalinya. 'Lembah mengambil beberapa dari kami tadi malam. Sebagian menghilang, sebagian... kembali berbeda. Kami butuh bantuan.'"
+          ],
+          speaker: "Narator",
+          choices: [
+            { text: "Bantu mereka mengatur pertahanan desa", next: "ep2_help_village", stat_effects: { trust: +1 } },
+            { text: "Curi persediaan mereka—kamu butuh perbekalan untuk perjalanan", next: "ep2_steal_village", stat_effects: { corruption: +1 } },
+            { text: "Tanya mereka tentang asal-usul Lembah", next: "ep2_ask_village", stat_effects: { knowledge: +1 } }
+          ]
+        },
+
+        "ep2_broken_village_solo": {
+          id: "ep2_broken_village_solo",
+          type: "scene",
+          title: "Seorang Diri di Kabut",
+          bg: "swamp",
+          narration: [
+            "Kabut menutup di belakangmu. Kamu sendirian di Lembah—atau begitu rasanya. Suara-suara berbisik di tepi pendengaran, tapi tidak ada yang bisa kamu bedakan.",
+            "Kamu menemukan desa yang hancur. Para penyintas melihatmu dengan campuran harapan dan rasa takut.",
+            "'Yang Ditandai,' kata seorang wanita tua. 'Tidak ada yang lain bersamamu?' Kekhawatirannya terasa seperti lebih dari sekedar basa-basi.",
+            "Di kejauhan, melalui bangunan-bangunan yang hancur, kamu bisa melihat cahaya biru pucat berkedip-kedip. Sesuatu di arah itu memanggilmu."
+          ],
+          speaker: "Narator",
+          choices: [
+            { text: "Dekati para penyintas dan tawarkan bantuan", next: "ep2_help_village", stat_effects: { trust: +1 } },
+            { text: "Abaikan desa dan ikuti cahaya biru", next: "ep2_mirror_lake_direct", stat_effects: {} },
+            { text: "Tanya mereka tentang Lembah", next: "ep2_ask_village", stat_effects: { knowledge: +1 } }
+          ]
+        },
+
+        "ep2_help_village": {
+          id: "ep2_help_village",
+          type: "scene",
+          title: "Tangan yang Membantu",
+          bg: "village",
+          narration: [
+            "Kamu menghabiskan beberapa jam membantu para penyintas—memperbaiki pagar, mengumpulkan bahan bakar, memeriksa yang terluka.",
+            "Seorang gadis kecil yang matanya terlalu tua untuk usianya menarik tanganmu. 'Yang Ditandai,' bisiknya. 'Ada cermin di danau. Ibuku melihat ke dalamnya dan tidak pulang dengan cara yang sama. Tapi juga...' Dia ragu-ragu.",
+            "'...Ada seorang pria di sana sebelum kabut. Dia mengatakan cermin itu menunjukkan kebenaran. Dia terlihat senang ketika pergi. Tapi senangnya tampak salah, seperti boneka yang dipaksakan tersenyum.'",
+            "Kepercayaan para penyintas terasa tulus. Sebuah wanita memberimu roti dan semangkuk sup panas. Kecil, tapi dirasakan."
+          ],
+          speaker: "Gadis Kecil",
+          choices: [
+            { text: "Pergi ke Danau Cermin dengan berhati-hati", next: "ep2_mirror_lake", stat_effects: {} },
+            { text: "Tanyakan lebih lanjut tentang pria yang tampak senang itu", next: "ep2_investigate_man", stat_effects: { knowledge: +1 } }
+          ]
+        },
+
+        "ep2_steal_village": {
+          id: "ep2_steal_village",
+          type: "scene",
+          title: "Bayang-bayang Pencuri",
+          bg: "village",
+          narration: [
+            "Saat para penyintas tertidur, kamu mengambil dari persediaan mereka—makanan kering, seutas tali, sebuah lentera.",
+            "Ini berhasil. Tapi saat kamu pergi, kamu melihat seorang anak kecil yang terbangun menatapmu. Dia tidak mengatakan apa-apa. Dia hanya memperhatikan.",
+            "Kabut di luar seperti menjadi lebih tebal saat kamu melewatinya. Atau mungkin itu imajinasimu.",
+            "Lembah terasa berbeda sekarang—lebih memperhatikan, lebih sadar. Seperti kamu telah mengonfirmasi sesuatu tentang dirimu sendiri, dan Lembah setuju."
+          ],
+          speaker: "Narator",
+          choices: [
+            { text: "Lanjutkan ke Danau Cermin", next: "ep2_mirror_lake", stat_effects: {} }
+          ]
+        },
+
+        "ep2_ask_village": {
+          id: "ep2_ask_village",
+          type: "scene",
+          title: "Catatan yang Tersebar",
+          bg: "village",
+          narration: [
+            "Pria tua itu—pemimpin desa, agaknya—duduk bersamamu di dekat api.",
+            "'Lembah ini sudah ada lebih lama dari desa kami. Kakek buyutku mengatakan itu selalu berbisik, tapi baik. Sekarang bisikannya semakin keras dan semakin lapar.'",
+            "'Ada danau di tengah—Danau Cermin, kami menyebutnya. Sebelum kabut, wisatawan datang untuk melihat penglihatannya. Setelah kabut...' Dia menggelengkan kepalanya. 'Beberapa yang melihat ke dalamnya kembali berubah. Yang lain tidak kembali sama sekali.'",
+            "'Di luar danau ada Inti Lembah. Tidak ada yang pernah datang kembali dari sana dan berbicara tentang apa yang mereka temukan. Kami berhenti mencoba.' Matanya memperhatikanmu. 'Kamu tidak terlihat seperti seseorang yang akan berhenti mencoba.'"
+          ],
+          speaker: "Pria Tua",
+          choices: [
+            { text: "Pergi ke Danau Cermin", next: "ep2_mirror_lake", stat_effects: {} },
+            { text: "Tanya tentang ritual untuk menguras Cermin", next: "ep2_ritual_knowledge", stat_effects: { knowledge: +1 } }
+          ]
+        },
+
+        "ep2_investigate_man": {
+          id: "ep2_investigate_man",
+          type: "scene",
+          title: "Jejak yang Ditinggalkan",
+          bg: "village",
+          narration: [
+            "Para penyintas tidak banyak tahu tentang pria itu—hanya bahwa dia datang dari timur dan berbicara tentang 'melihat wajah aslinya' di danau.",
+            "Tapi seorang anak laki-laki membantumu menemukan sesuatu: sebuah buku catatan kecil yang ditinggalkan di balik bebatuan. Tulisan tangannya rapi tapi semakin berantakan.",
+            "Entri terakhir berbunyi: 'Cermin tidak menunjukkan kebenaran. Ia menunjukkan apa yang ingin kamu lihat. Perbedaannya lebih berbahaya dari yang kamu kira. Jika kamu membaca ini—jangan pandang terlalu lama.'",
+            "Di bawah tulisan itu: sketsa lingkaran dengan spiral di dalamnya. Lambang yang sama yang kamu lihat pada Mahkota yang Hancur."
+          ],
+          speaker: "Narator",
+          choices: [
+            { text: "Simpan buku catatan itu dan pergi ke danau dengan pengetahuan baru", next: "ep2_mirror_lake", stat_effects: { knowledge: +1 } }
+          ]
+        },
+
+        "ep2_ritual_knowledge": {
+          id: "ep2_ritual_knowledge",
+          type: "scene",
+          title: "Pengetahuan Kuno",
+          bg: "village",
+          narration: [
+            "Pria tua itu mengambil napas panjang. 'Ada yang diajarkan leluhur kami. Cermin dapat dikosongkan—tapi hanya jika seseorang menawarkan kenangan sejati sebagai gantinya. Bukan kenangan yang ingin kamu berikan. Yang paling berharga.'",
+            "'Apakah itu benar? Aku tidak tahu. Aku belum pernah mencobanya.' Dia menatap tangannya yang tua. 'Tapi aku juga tidak pernah cukup berani untuk pergi ke danau itu sendiri.'",
+            "Kamu merenungkan kata-katanya saat kamu berdiri. Elira—jika dia bersamamu—memberikan anggukan kecil yang hampir tidak terlihat. Dia juga mendengar."
+          ],
+          speaker: "Pria Tua",
+          choices: [
+            { text: "Pergi ke Danau Cermin dengan pemahaman baru", next: "ep2_mirror_lake", stat_effects: { knowledge: +1 } }
+          ]
+        },
+
+        // ─── DANAU CERMIN ──────────────────────────────────────
+        "ep2_mirror_lake": {
+          id: "ep2_mirror_lake",
+          type: "scene",
+          title: "Danau Cermin",
+          bg: "vault",
+          narration: [
+            "Danau itu tidak seperti yang kamu bayangkan. Airnya benar-benar diam—tidak ada riak, tidak ada pantulan angin, tidak ada gerakan sama sekali. Permukaannya seperti kaca yang telah disepuh dengan perak tua.",
+            "Dan kemudian kamu melihat pantulannya. Bukan penulanmu sendiri—bukan tepat. Bayangan di air bergerak satu langkah terlambat, menoleh ke arah yang berbeda, tersenyum saat kamu tidak tersenyum.",
+            "Elira—jika dia bersamamu—berdiri jauh dari tepi. 'Ini lebih kuat dari yang kuingat,' dia berkata pelan. 'Hati-hati. Cermin ini tidak menunjukkan apa adanya. Ia menunjukkan apa yang kamu inginkan, atau apa yang kamu takutkan. Batas di antara keduanya bisa menghilang.'",
+            "Bayangan di air melambaikan tangan padamu."
+          ],
+          speaker: "Narator",
+          choices: [
+            { text: "Pandang ke dalam danau dengan sengaja", next: "ep2_look_lake", stat_effects: { knowledge: +1, corruption: +1 } },
+            { text: "Hancurkan permukaan danau—lempar batu ke dalamnya", next: "ep2_destroy_lake", stat_effects: { corruption: +2 } },
+            { text: "Berpaling dan terus berjalan tanpa melihat", next: "ep2_walk_away", stat_effects: {} }
+          ]
+        },
+
+        "ep2_mirror_lake_direct": {
+          id: "ep2_mirror_lake_direct",
+          type: "scene",
+          title: "Danau Cermin",
+          bg: "vault",
+          narration: [
+            "Cahaya biru memimpinmu ke sebuah danau yang permukaannya setenang kaca. Tidak ada angin yang menyentuhnya. Tidak ada burung yang terbang di atasnya.",
+            "Bayanganmu di air tampak satu langkah terlambat. Kemudian ia berbalik dan menatapmu langsung.",
+            "Kamu sendirian di sini. Tidak ada suara selain bisikan samar yang mungkin bukan kata-kata—atau mungkin kata-kata dalam bahasa yang otakmu menolak untuk memproses.",
+            "Danau menunggu."
+          ],
+          speaker: "Narator",
+          choices: [
+            { text: "Pandang ke dalam air dengan sengaja", next: "ep2_look_lake", stat_effects: { knowledge: +1, corruption: +1 } },
+            { text: "Hancurkan permukaan danau", next: "ep2_destroy_lake", stat_effects: { corruption: +2 } },
+            { text: "Berpaling dan cari jalur lain ke Inti Lembah", next: "ep2_walk_away", stat_effects: {} }
+          ]
+        },
+
+        "ep2_look_lake": {
+          id: "ep2_look_lake",
+          type: "scene",
+          title: "Cermin Jiwa",
+          bg: "vault",
+          narration: [
+            "Kamu menatap ke dalam air.",
+            "Pertama kamu melihat dirimu sendiri—tapi lebih tua, lebih lelah. Kemudian kamu melihat jalan-jalan yang tidak kamu ambil. Pilihan-pilihan yang kamu buat di Aelthar, diputar ulang dengan hasil yang berbeda.",
+            "Beberapa lebih baik. Beberapa jauh lebih buruk. Danau tidak menghakimi—ia hanya menunjukkan.",
+            "Kemudian kamu melihat sesuatu di kedalaman: sebuah struktur. Inti Lembah—kamu bisa melihatnya di bawah air seolah danau adalah jendela, bukan permukaan. Dan di sana, tanda yang sama yang ada di tubuhmu bersinar.",
+            "Kamu menarik diri sebelum terlalu jauh tenggelam. Tapi kamu tahu jalan sekarang."
+          ],
+          speaker: "Narator",
+          choices: [
+            { text: "Lanjutkan ke Inti Lembah dengan pengetahuan baru", next: "ep2_hollow_core", stat_effects: {} }
+          ]
+        },
+
+        "ep2_destroy_lake": {
+          id: "ep2_destroy_lake",
+          type: "scene",
+          title: "Kekerasan terhadap Cermin",
+          bg: "vault",
+          narration: [
+            "Kamu melempar batu besar ke dalam danau. Permukaan kaca itu pecah, riak-riak meluas, dan bayangan itu terpecah menjadi serpihan.",
+            "Tapi kemudian air menjadi tenang lagi. Lebih cepat dari yang mungkin. Dan ketika tenang, bayanganmu tidak ada lagi—hanya kabut yang memantul dari permukaan.",
+            "Elira—jika dia bersamamu—mengambil napas tajam. 'Itu... tidak akan diam selamanya. Dan kamu baru saja memberitahu Lembah bahwa kamu takut pada apa yang ingin ditunjukkan oleh cermin itu.'",
+            "Bisikan di sekitarmu menjadi lebih keras. Lebih mendesak. Seolah Lembah harus bekerja lebih keras sekarang untuk mencapai kamu."
+          ],
+          speaker: "Narator",
+          choices: [
+            { text: "Terus ke Inti Lembah", next: "ep2_hollow_core", stat_effects: {} }
+          ]
+        },
+
+        "ep2_walk_away": {
+          id: "ep2_walk_away",
+          type: "scene",
+          title: "Pilihan untuk Tidak Melihat",
+          bg: "swamp",
+          narration: [
+            "Kamu berpaling dari danau. Bayangan di air memperhatikan kepergianmu.",
+            "Ada sesuatu yang terasa seperti kehilangan—jalan yang tidak diambil, jawaban yang tidak dicari. Tapi juga ada sesuatu seperti kejernihan.",
+            "Elira—jika dia bersamamu—mengikutimu tanpa berkomentar. Setelah beberapa langkah dia berkata pelan: 'Kebijaksanaan atau ketakutan, aku tidak selalu bisa membedakannya. Terkadang keduanya terlihat sama dari luar.'",
+            "Jalan berlanjut ke depan. Inti Lembah menunggu."
+          ],
+          speaker: "Narator",
+          choices: [
+            { text: "Lanjutkan ke Inti Lembah", next: "ep2_hollow_core", stat_effects: {} }
+          ]
+        },
+
+        // ─── INTI LEMBAH ──────────────────────────────────────
+        "ep2_hollow_core": {
+          id: "ep2_hollow_core",
+          type: "scene",
+          title: "Inti Lembah",
+          bg: "vault",
+          narration: [
+            "Inti Lembah adalah sebuah ruang terbuka di mana semua kabut tampak berasal—bukan tersebar dari sini, tapi dikumpulkan di sini. Di tengah ruang terbuka berdiri struktur yang kamu lihat di danau: semacam menara kecil dari batu gelap.",
+            "Dan di sekelilingnya—tanda-tanda yang sama dengan yang ada di tubuhmu. Bersinar. Menunggu.",
+            "Elira—jika dia bersamamu—berdiri di sampingmu dan berbisik penilaiannya. Jika tidak, kamu merasakan sendiri berat dari apa yang harus kamu lakukan.",
+            "Cermin Tidur berdenyut di dalam menara. Penuh. Hampir meluap. Jiwa-jiwa yang tersimpan di dalamnya mendorong ke dalam dinding batu.",
+            "Pilihan ada di hadapanmu."
+          ],
+          speaker: "Narator",
+          choices: [
+            { text: "Lakukan ritual bersama Elira untuk menguras Cermin", next: "ep2_ritual_choice", stat_effects: {} },
+            { text: "Sentuh Cermin—rasakan kekuatan yang tersimpan di dalamnya", next: "ep2_touch_mirror_temptation", stat_effects: { corruption: +1 } },
+            { text: "Pelajari struktur batu sebelum bertindak", next: "ep2_study_core", stat_effects: { knowledge: +1 } },
+            { text: "Coba hancurkan Cermin secara paksa", next: "ep2_destroy_mirror", stat_effects: { corruption: +1 } }
+          ]
+        },
+
+        "ep2_ritual_choice": {
+          id: "ep2_ritual_choice",
+          type: "scene",
+          title: "Saat Kebenaran",
+          bg: "vault",
+          narration: [
+            "Elira mulai merapal. Kata-katanya jatuh ke dalam ruang terbuka seperti batu ke dalam air—berat, penuh tujuan.",
+            "Cermin Tidur merespons. Cahayanya berubah—dari biru dingin menjadi sesuatu yang lebih hangat, lebih manusiawi. Jiwa-jiwa di dalamnya tampak bernapas lebih mudah.",
+            "'Aku butuh suaramu,' Elira berkata. 'Yang Ditandai memiliki koneksi yang tidak kumiliki. Bukan kata-kata—sebuah ingatan. Yang paling nyata yang kamu miliki. Tawarkan itu, dan Cermin akan terbuka.'",
+            "Kamu memahami apa yang dimaksud. Ini tidak akan menyakiti kamu—tapi ingatan itu akan diambil dari pikiran dan disimpan di dalam Cermin, menggantinya. Tidak hilang, hanya... dialihkan."
+          ],
+          speaker: "Elira",
+          choices: [
+            { text: "Tawarkan ingatan terpentingmu—selesaikan ritual", next: "ep2_ending_check", stat_effects: {} },
+            { text: "Tolak—cari cara lain untuk menguras Cermin", next: "ep2_study_core", stat_effects: {} },
+            { text: "Tanyakan apakah kamu bisa mengambil ingatan itu kembali suatu hari nanti", next: "ep2_ritual_question", stat_effects: { knowledge: +1 } }
+          ]
+        },
+
+        "ep2_ritual_question": {
+          id: "ep2_ritual_question",
+          type: "scene",
+          title: "Pertanyaan yang Penting",
+          bg: "vault",
+          narration: [
+            "Elira berhenti. Pertanyaanmu membuatnya diam lebih lama dari yang kamu harapkan.",
+            "'Aku tidak tahu,' akhirnya dia menjawab jujur. 'Teorinya... bisa. Jika Cermin berhasil dikuras dan kemudian dinonaktifkan dengan benar, isi dalamnya—termasuk ingatanmu—bisa dilepaskan. Tapi itu ritual yang berbeda, lebih sulit, dan aku tidak yakin apakah aku bisa melakukannya sendirian.'",
+            "'Aku tidak akan berbohong padamu hanya untuk mendapatkan apa yang kubutuhkan. Risikonya nyata. Keputusannya ada padamu.'",
+            "Kejujurannya terasa seperti sesuatu yang langka di tempat ini."
+          ],
+          speaker: "Elira",
+          choices: [
+            { text: "\"Baiklah. Aku mempercayaimu. Mari kita lakukan.\"", next: "ep2_ending_check", stat_effects: { trust: +1 } },
+            { text: "\"Aku membutuhkan waktu sebentar.\"", next: "ep2_study_core", stat_effects: {} }
+          ]
+        },
+
+        "ep2_touch_mirror_temptation": {
+          id: "ep2_touch_mirror_temptation",
+          type: "scene",
+          title: "Godaan Kekuatan",
+          bg: "vault",
+          narration: [
+            "Tanganmu menyentuh batu menara.",
+            "Kekuatan mengalir ke atas lenganmu—tidak menyakitkan, tapi menggiurkan. Kamu bisa merasakan jiwa-jiwa di dalam Cermin, ribuan dari mereka, dan mereka merasakanmu juga.",
+            "Bisikan berbondong-bondong menuju kesadaranmu. Bukan ancaman—tawaran. Semua yang mereka tahu, semua yang mereka lihat di Lembah ini selama berabad-abad, bisa menjadi milikmu.",
+            "Elira—jika dia bersamamu—menarik tanganmu dengan cepat. 'Jangan. Cermin tidak memberi—ia mengambil. Kekuatan yang kamu rasakan adalah milikmu sendiri yang terpantul balik, diperbesar. Tidak ada yang lain di dalamnya yang asing.'"
+          ],
+          speaker: "Narator",
+          choices: [
+            { text: "Percayai Elira dan lanjutkan dengan ritual", next: "ep2_ritual_choice", stat_effects: { trust: +1 } },
+            { text: "Abaikan peringatannya—terus sentuh Cermin lebih lama", next: "ep2_corrupt_path", stat_effects: { corruption: +2 } },
+            { text: "Mundur dan pelajari Cermin dari jarak aman", next: "ep2_study_core", stat_effects: { knowledge: +1 } }
+          ]
+        },
+
+        "ep2_corrupt_path": {
+          id: "ep2_corrupt_path",
+          type: "scene",
+          title: "Ke Dalam yang Lebih Dalam",
+          bg: "vault",
+          narration: [
+            "Kamu mengabaikan Elira. Tanganmu tetap di batu.",
+            "Kekuatannya semakin kuat. Dan kemudian kamu menyadari sesuatu: ia tidak memberimu pengetahuan jiwa-jiwa lain. Elira benar—itu adalah dirimu sendiri yang dipantulkan, tapi versi yang telah melepaskan setiap keraguan, setiap belas kasih, setiap hambatan.",
+            "Kamu bisa menjadi penguasa tempat ini. Tidak perlu menguras Cermin—kamu bisa mengendalikannya. Dan melaluinya, mengendalikan Lembah.",
+            "Elira berteriak namamu dari jauh yang semakin jauh."
+          ],
+          speaker: "Narator",
+          choices: [
+            { text: "Bertarung melawan pengaruh Cermin—tarik dirimu kembali", next: "ep2_ritual_choice", stat_effects: { corruption: -1, trust: +1 } },
+            { text: "Biarkan kekuatan itu mengambil alih sepenuhnya", next: "ep2_ending_hollow_king", stat_effects: { corruption: +2 } }
+          ]
+        },
+
+        "ep2_study_core": {
+          id: "ep2_study_core",
+          type: "scene",
+          title: "Pembelajaran di Tepi Jurang",
+          bg: "vault",
+          narration: [
+            "Kamu memperhatikan struktur batu dengan cermat. Tanda-tanda di sekitar menara bukan sekedar dekorasi—mereka membentuk pola, sistem. Sebuah tata letak.",
+            "Kamu mengenali beberapa dari tanda-tanda dari buku catatan yang kamu baca—lambang Maloreth, ya, tapi juga lambang yang lebih tua. Pre-Maloreth. Sebelum keinginannya untuk mengabadikan diri sendiri mendistorsi segalanya.",
+            "Cermin Tidur pada awalnya bukan untuk menimbun jiwa. Itu untuk menyimpannya sementara—tempat peristirahatan di antara kehidupan, dirawat oleh penjaga yang akan membimbing jiwa-jiwa saat mereka siap untuk melanjutkan perjalanan.",
+            "Maloreth mengambil mekanisme itu dan membaliknya menjadi sebuah penjara.",
+            "'Aku melihatnya sekarang,' kata Elira—atau jika kamu sendirian, kamu berbicara kepada dirimu sendiri. 'Kita tidak perlu menghancurkannya. Kita perlu mengembalikannya ke tujuan aslinya.'"
+          ],
+          speaker: "Narator",
+          choices: [
+            { text: "Coba kembalikan fungsi asli Cermin", next: "ep2_ending_check", stat_effects: { knowledge: +1 } },
+            { text: "Lakukan ritual pengurasan Elira sebagai alternatif", next: "ep2_ritual_choice", stat_effects: {} }
+          ]
+        },
+
+        "ep2_destroy_mirror": {
+          id: "ep2_destroy_mirror",
+          type: "scene",
+          title: "Kekerasan sebagai Jawaban",
+          bg: "vault",
+          narration: [
+            "Kamu menyerang struktur batu dengan senjatamu.",
+            "Batu retak. Cahaya di dalamnya berteriak—tidak metaforis, benar-benar berteriak, suara ribuan jiwa yang terkejut dan marah—kemudian meledak ke luar dalam gelombang.",
+            "Kamu terlempar ke belakang. Saat kamu bangkit, debu menyelimuti segalanya.",
+            "Ketika debu mengendap, kamu melihat bahwa menara itu hancur... tapi jiwa-jiwa yang tersimpan di dalamnya tidak pergi ke manapun. Mereka tersebar ke seluruh Lembah, bebas tapi tidak terarah, mengisi udara dengan kehadiran yang seperti berdesak-desakan di ruangan yang terlalu penuh.",
+            "Elira—jika dia bersamamu—berdiri terpana. 'Kamu membebaskannya tapi tidak memberi mereka arah. Ini...' Dia menggelengkan kepala. 'Ini mungkin lebih buruk.'"
+          ],
+          speaker: "Narator",
+          choices: [
+            { text: "Coba pandu jiwa-jiwa yang tersebar dengan tanda yang ada di tubuhmu", next: "ep2_ending_check", stat_effects: {} },
+            { text: "Tinggalkan—ini sudah di luar kemampuanmu", next: "ep2_ending_lost_soul", stat_effects: {} }
+          ]
+        },
+
+        // ─── PENGECEKAN AKHIRAN ──────────────────────────────────────
+        "ep2_ending_check": {
+          id: "ep2_ending_check",
+          type: "scene",
+          title: "Momen Penentu",
+          bg: "vault",
+          narration: [
+            "Kamu berdiri di hadapan Cermin Tidur. Tanda di tubuhmu menyala.",
+            "Semua pilihan yang kamu buat di Lembah ini—kepercayaan yang diberikan atau ditahan, pengetahuan yang dicari atau diabaikan, godaan yang dilawan atau diikuti—semuanya berkumpul di sini.",
+            "Cermin merasakan siapa kamu. Inti Lembah merasakan siapa kamu.",
+            "Dan dalam keheningan sebelum tindakan, kamu merasakan konsekuensi dari setiap langkah yang kamu ambil sejak memasuki kabut."
+          ],
+          speaker: "Narator",
+          choices: [
+            { text: "Selesaikan apa yang kamu mulai", next: "ep2_resolve_ending", stat_effects: {} }
+          ]
+        },
+
+        "ep2_resolve_ending": {
+          id: "ep2_resolve_ending",
+          type: "scene",
+          title: "Cahaya yang Tersisa",
+          bg: "vault",
+          narration: [
+            "Kamu mengerahkan semua yang kamu pelajari, semua kepercayaan yang kamu bangun atau hancurkan, semua kebijaksanaan yang kamu kumpulkan atau tolak.",
+            "Tanda di tubuhmu bereaksi dengan Cermin Tidur.",
+            "Dan untuk sesaat—hanya sesaat—kamu bisa merasakan semua jiwa yang tersimpan di dalamnya. Bukan sebagai massa yang tidak berbentuk, tapi sebagai individu. Masing-masing dengan nama mereka sendiri, kenangan mereka sendiri, dan kerinduan mereka sendiri untuk melanjutkan.",
+            "Apa yang terjadi selanjutnya ditentukan oleh siapa kamu sebenarnya."
+          ],
+          speaker: "Narator",
+          choices: [
+            { text: "Bertindak berdasarkan kepercayaan (trust tinggi)", next: "ep2_ending_lightbearer", stat_effects: {} },
+            { text: "Bertindak berdasarkan pengetahuan (knowledge tinggi)", next: "ep2_ending_truth_seeker", stat_effects: {} },
+            { text: "Bertindak dari tempat yang gelap (corruption tinggi)", next: "ep2_ending_hollow_king", stat_effects: {} },
+            { text: "Refleksikan jika kamu telah melihat danau DAN mempercayai Elira", next: "ep2_ending_loop", stat_effects: {} }
+          ]
+        },
+
+        // ─── AKHIRAN EPISODE 2 ────────────────────────────────────
+        "ep2_ending_lightbearer": {
+          id: "ep2_ending_lightbearer",
+          type: "ending",
+          title: "Pembawa Cahaya",
+          bg: "chapel",
+          ending_id: "ep2_ending_lightbearer",
+          ending_name: "Cahaya Lembah",
+          ending_icon: "☀️",
+          rarity: "rare",
+          narration: [
+            "Kamu dan Elira melakukan ritual bersama.",
+            "Cermin Tidur terbuka—bukan pecah, bukan hancur, tapi terbuka—seperti bunga yang akhirnya menemukan matahari. Jiwa-jiwa yang tersimpan di dalamnya mengalir keluar dalam cahaya putih yang tenang, masing-masing menemukan jalannya sendiri.",
+            "Elira menangis diam-diam. 'Tiga ratus tahun,' bisiknya. 'Tiga ratus tahun mereka menunggu.'",
+            "Kabut Lembah menipis saat fajar—perlahan, seperti makhluk lama yang terbangun dari tidur. Langit yang pernah abu-abu sekarang memiliki warna kembali.",
+            "Para penyintas desa melihat dari jalan setapak ketika kamu keluar. Tidak ada yang berkata apa-apa pada awalnya. Kemudian seorang gadis kecil berlari ke depan dan meraih tanganmu.",
+            "Elira berdiri di sampingmu, pundaknya lebih ringan dari yang pernah ada. 'Apa yang kamu lakukan selanjutnya, Yang Ditandai?' tanyanya.",
+            "Kamu melihat ke jalan yang membentang. Aelthar masih ada di timur. Kerajaan yang masih membutuhkan penyembuhan. Dan tanda di tubuhmu masih menyala—tapi sekarang rasanya seperti kompas, bukan beban."
+          ],
+          speaker: "Narator"
+        },
+
+        "ep2_ending_hollow_king": {
+          id: "ep2_ending_hollow_king",
+          type: "ending",
+          title: "Raja Lembah",
+          bg: "vault",
+          ending_id: "ep2_ending_hollow_king",
+          ending_name: "Raja Kekosongan",
+          ending_icon: "👑",
+          rarity: "rare",
+          narration: [
+            "Cermin Tidur membuka dirinya padamu—bukan karena kamu memecahkannya atau meritualinya. Karena ia mengenalimu.",
+            "Bukan karena tanda Maloreth. Karena korupsi yang telah berkembang dalam dirimu di Lembah ini mencerminkan apa yang pernah dilakukan Maloreth: menyerahkan belas kasih untuk kekuatan, kepercayaan untuk kendali.",
+            "Kamu menjadi penguasa Lembah. Kabut tetap ada—semakin tebal, semakin lapar. Jiwa-jiwa di dalam Cermin tidak terbebas; mereka menjadi pasukanmu.",
+            "Elira—jika dia bersamamu—menghilang ke dalam kabut tanpa berkata sepatah kata pun. Kamu tidak mencarinya.",
+            "Para penyintas desa meninggalkan rumah mereka dalam semalam.",
+            "Kamu mendapatkan kekuatan yang kamu inginkan. Apa yang tidak kamu rencanakan adalah betapa sunyinya kekuatan itu—betapa setiap jiwa yang tunduk padamu terasa seperti pintu yang terkunci dari luar.",
+            "Lembah tumbuh. Kerajaanmu tumbuh. Dan setiap pagi, di cermin air yang tenang, kamu mencari wajah yang masih terlihat seperti kamu—dan semakin hari semakin sulit untuk menemukannya."
+          ],
+          speaker: "Narator"
+        },
+
+        "ep2_ending_truth_seeker": {
+          id: "ep2_ending_truth_seeker",
+          type: "ending",
+          title: "Pencari Kebenaran",
+          bg: "swamp",
+          ending_id: "ep2_ending_truth_seeker",
+          ending_name: "Sang Bijaksana",
+          ending_icon: "📚",
+          rarity: "uncommon",
+          narration: [
+            "Dengan pemahaman tentang fungsi asli Cermin, kamu melakukan sesuatu yang tidak seorang pun mencoba: kamu tidak menguras atau menghancurkan Cermin Tidur. Kamu memulihkan tujuan aslinya.",
+            "Jiwa-jiwa di dalamnya tidak dilepaskan ke kekosongan—mereka dibimbing. Satu per satu, dalam proses yang membutuhkan waktu hingga fajar, mereka menemukan jalan yang seharusnya mereka tempuh tiga ratus tahun lalu.",
+            "Kamu tidak memahami sepenuhnya apa yang terjadi—ke mana mereka pergi, apa yang menunggu mereka. Tapi kamu mengerti bahwa prosesnya terasa benar dengan cara yang tidak bisa dijelaskan.",
+            "Elira—jika dia bersamamu—duduk diam dalam keheningan yang panjang setelah selesai. 'Aku tidak mengharapkan ini,' akhirnya dia berkata. 'Aku berharap aku akan menjadi satu-satunya yang melakukan ini bersamamu.'",
+            "Kamu meninggalkan Lembah saat siang hari. Kabut telah pergi. Desa masih ada—tidak subur, tidak dipulihkan secara ajaib, tapi bertahan. Masih ada.",
+            "Kamu membawa lebih banyak pertanyaan dari Lembah dari yang kamu bawa masuk. Tapi juga sesuatu yang lebih berharga dari jawaban: pemahaman bahwa beberapa hal tidak perlu dihancurkan atau dikuasai—hanya perlu dimengerti."
+          ],
+          speaker: "Narator"
+        },
+
+        "ep2_ending_lost_soul": {
+          id: "ep2_ending_lost_soul",
+          type: "ending",
+          title: "Jiwa yang Hilang",
+          bg: "vault",
+          ending_id: "ep2_ending_lost_soul",
+          ending_name: "Tersesat",
+          ending_icon: "🌫️",
+          rarity: "common",
+          narration: [
+            "Lembah membutuhkanmu lebih dari yang kamu butuhkan dirinya sendiri.",
+            "Kamu tidak bisa mengingat kapan kamu berhenti berjalan ke depan dan mulai berjalan dalam lingkaran. Kabut terlihat sama dari setiap arah. Jiwa-jiwa yang tersebar dari Cermin yang hancur melayang melewatimu, berbisik nama-nama yang bukan milikmu.",
+            "Di suatu tempat di luar kabut, dunia berlanjut. Aelthar berlanjut. Orang-orang yang pernah kamu bantu berlanjut.",
+            "Tapi kamu tidak keluar dari Lembah.",
+            "Bukan karena Lembah mengambilmu—tapi karena kamu tidak membawa cukup dari dirimu sendiri untuk menemukan jalan kembali.",
+            "Para penyintas desa menunggu beberapa hari, kemudian pergi.",
+            "Bertahun-tahun kemudian, pelancong sesekali melaporkan mendengar suara di kabut Lembah Berbisik: tidak meminta tolong, tidak berteriak, hanya berbisik nama-nama tempat yang jauh dan orang-orang yang tidak bisa lagi mereka ingat dengan jelas.",
+            "Jika kamu mendengarnya, berhentilah sebentar. Berikan nama itu sebuah kata perpisahan. Ini yang paling bisa dilakukan sekarang."
+          ],
+          speaker: "Narator"
+        },
+
+        "ep2_ending_loop": {
+          id: "ep2_ending_loop",
+          type: "ending",
+          title: "Putaran Waktu",
+          bg: "vault",
+          ending_id: "ep2_ending_loop",
+          ending_name: "Yang Hidup Kembali",
+          ending_icon: "🔄",
+          rarity: "secret",
+          narration: [
+            "Saat tanda di tubuhmu menyentuh Cermin Tidur, sesuatu terjadi yang tidak ada dalam rencana siapa pun.",
+            "Cermin mengenali bukan hanya tanda Maloreth—ia mengenali jiwa yang sudah ada dalam catatannya.",
+            "Kamu.",
+            "Bukan kamu yang sekarang. Kamu yang lain—jiwa yang memasuki Lembah ini sebelum memori dimulai, sebelum nama ini ada, dalam iterasi sebelumnya dari sebuah perjalanan yang kamu pikir kamu mulai di Aelthar.",
+            "Bayangan di Danau Cermin yang satu langkah terlambat—itu bukan cerminanmu. Itu adalah kamu dari waktu sebelumnya.",
+            "Cermin membuka, dan semua jiwa terbebas, termasuk versi dirimu yang tua itu. Saat mereka lewat, kamu merasakan sepotong ingatan—bukan ingatanmu, namun terasa seperti ingatanmu: masuk ke sebuah rawa di malam hari, lampu obor di kejauhan, suara teriakan yang tertiup angin.",
+            "Kemudian hilang.",
+            "Elira berdiri di sampingmu, wajahnya tidak terbaca. 'Sudah berapa kali?' tanyamu.",
+            "Dia hanya tersenyum. 'Lebih sedikit dari yang kamu takutkan. Lebih banyak dari yang kamu harapkan.'",
+            "Kamu meninggalkan Lembah. Jalan menuju ke timur, ke Aelthar, terasa familiar—terlalu familiar. Sebuah desa. Seorang raja yang putus asa. Rawa yang bergemuruh di malam hari.",
+            "Tapi kali ini, kamu tahu akhirannya bisa berbeda.",
+            "Kronik berlanjut."
+          ],
+          speaker: "Narator"
         }
       }
     }
   ]
 };
 
-// Helper: flatten all scenes from all episodes for quick lookup
+// Helper: temukan semua adegan dari semua episode
 function getScene(episodeId, sceneId) {
   const ep = STORY_DATA.episodes.find(e => e.id === episodeId);
   if (!ep) return null;

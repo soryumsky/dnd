@@ -1,44 +1,44 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Chronicles of Aelthar — A D&D Adventure</title>
+  <title>Kronik Aelthar — Petualangan D&D</title>
   <link rel="stylesheet" href="style.css" />
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚔️</text></svg>" />
 </head>
 <body>
 
-<!-- ─── BACKGROUND LAYER ──────────────────────────────────── -->
+<!-- ─── LAPISAN LATAR BELAKANG ──────────────────────────────────── -->
 <div class="bg-layer" aria-hidden="true"></div>
 
-<!-- ─── TRANSITION OVERLAY ───────────────────────────────── -->
+<!-- ─── OVERLAY TRANSISI ───────────────────────────────── -->
 <div id="transition-overlay" aria-hidden="true"></div>
 
-<!-- ─── TOAST CONTAINER ──────────────────────────────────── -->
+<!-- ─── KONTAINER TOAST ──────────────────────────────────── -->
 <div id="toast-container" aria-live="polite"></div>
 
-<!-- ─── MODAL OVERLAY ────────────────────────────────────── -->
+<!-- ─── OVERLAY MODAL ────────────────────────────────────── -->
 <div id="modal-overlay" class="overlay" role="dialog" aria-modal="true">
   <div class="panel modal">
-    <div class="modal-title" id="modal-title">Are you certain?</div>
-    <div class="modal-body" id="modal-body">This action cannot be undone.</div>
+    <div class="modal-title" id="modal-title">Apakah kamu yakin?</div>
+    <div class="modal-body" id="modal-body">Tindakan ini tidak dapat dibatalkan.</div>
     <div class="modal-actions">
-      <button id="modal-cancel" class="btn btn-secondary">Cancel</button>
-      <button id="modal-confirm" class="btn btn-danger">Confirm</button>
+      <button id="modal-cancel" class="btn btn-secondary">Batal</button>
+      <button id="modal-confirm" class="btn btn-danger">Konfirmasi</button>
     </div>
   </div>
 </div>
 
 <!-- ══════════════════════════════════════════════════════════
-     PAGE: MAIN MENU
+     HALAMAN: MENU UTAMA
      ══════════════════════════════════════════════════════════ -->
 <main id="page-menu" class="page" role="main">
   <div class="menu-title-block">
     <div class="ornament-dragon" aria-hidden="true">🐉</div>
-    <div class="menu-eyebrow">An Interactive Fantasy Chronicle</div>
-    <h1 class="title-display menu-title">Chronicles<br>of Aelthar</h1>
-    <div class="menu-subtitle">Choose your fate, adventurer</div>
+    <div class="menu-eyebrow">Kronik Fantasi Interaktif</div>
+    <h1 class="title-display menu-title">Kronik<br>Aelthar</h1>
+    <div class="menu-subtitle">Tentukan takdirmu, petualang</div>
   </div>
 
   <div class="panel menu-panel">
@@ -48,13 +48,13 @@
 
     <div class="menu-buttons">
       <button id="btn-new-game" class="btn btn-primary" style="font-size:1rem; padding: 0.9rem 2.5rem;">
-        ⚔️ &nbsp;New Game
+        ⚔️ &nbsp;Permainan Baru
       </button>
       <button id="btn-load-game" class="btn btn-secondary">
-        📜 &nbsp;Load Game
+        📜 &nbsp;Muat Permainan
       </button>
       <button id="btn-achievements-menu" class="btn btn-secondary">
-        🏆 &nbsp;Achievements
+        🏆 &nbsp;Pencapaian
       </button>
     </div>
 
@@ -63,49 +63,49 @@
     </div>
 
     <p style="font-size:0.72rem; color: var(--ash); text-align:center; font-style:italic; line-height:1.5;">
-      Click to skip narration &nbsp;·&nbsp; Progress auto-saves on endings
+      Klik untuk melewati narasi &nbsp;·&nbsp; Perkembangan tersimpan otomatis saat akhiran
     </p>
   </div>
 </main>
 
 <!-- ══════════════════════════════════════════════════════════
-     PAGE: CHARACTER CREATION
+     HALAMAN: PEMBUATAN KARAKTER
      ══════════════════════════════════════════════════════════ -->
 <main id="page-create" class="page" role="main">
   <div class="panel create-panel">
 
-    <!-- Step 1: Name -->
+    <!-- Langkah 1: Nama -->
     <div class="create-step active" id="create-step-1">
       <div class="text-center">
-        <div class="label" style="color:var(--gold-dim); margin-bottom:0.5rem;">Chapter I</div>
-        <h2 class="title-section" style="font-size:1.3rem; margin-bottom:0.25rem;">Who Are You?</h2>
-        <p style="font-size:0.85rem; color:var(--ash); font-style:italic;">Enter the name by which legends will know you.</p>
+        <div class="label" style="color:var(--gold-dim); margin-bottom:0.5rem;">Bab I</div>
+        <h2 class="title-section" style="font-size:1.3rem; margin-bottom:0.25rem;">Siapakah Kamu?</h2>
+        <p style="font-size:0.85rem; color:var(--ash); font-style:italic;">Masukkan nama yang akan dikenal oleh legenda.</p>
       </div>
 
       <div class="divider"><span class="divider-icon">⚜</span></div>
 
-      <label class="label" for="player-name-input">Your Name</label>
+      <label class="label" for="player-name-input">Namamu</label>
       <input
         type="text"
         id="player-name-input"
         class="input-field"
-        placeholder="e.g. Elara, Thorin, Mira..."
+        placeholder="mis. Elara, Thorin, Mira..."
         maxlength="32"
         autocomplete="off"
       />
 
       <div style="display:flex; gap:0.75rem; margin-top:0.5rem;">
-        <button id="btn-create-back" class="btn btn-secondary" style="flex:1">← Back</button>
-        <button id="btn-create-next" class="btn btn-primary" style="flex:2">Continue →</button>
+        <button id="btn-create-back" class="btn btn-secondary" style="flex:1">← Kembali</button>
+        <button id="btn-create-next" class="btn btn-primary" style="flex:2">Lanjutkan →</button>
       </div>
     </div>
 
-    <!-- Step 2: Race -->
+    <!-- Langkah 2: Ras -->
     <div class="create-step" id="create-step-2">
       <div class="text-center">
-        <div class="label" style="color:var(--gold-dim); margin-bottom:0.5rem;">Chapter II</div>
-        <h2 class="title-section" style="font-size:1.3rem; margin-bottom:0.25rem;">Choose Your Race</h2>
-        <p style="font-size:0.85rem; color:var(--ash); font-style:italic;">Your bloodline shapes your strengths.</p>
+        <div class="label" style="color:var(--gold-dim); margin-bottom:0.5rem;">Bab II</div>
+        <h2 class="title-section" style="font-size:1.3rem; margin-bottom:0.25rem;">Pilih Rasmu</h2>
+        <p style="font-size:0.85rem; color:var(--ash); font-style:italic;">Garis keturunanmu membentuk kekuatanmu.</p>
       </div>
 
       <div class="divider"><span class="divider-icon">⚜</span></div>
@@ -113,17 +113,17 @@
       <div class="race-grid" id="race-grid"></div>
 
       <div style="display:flex; gap:0.75rem; margin-top:0.5rem;">
-        <button class="btn btn-secondary" onclick="renderCreateStep(1)" style="flex:1">← Back</button>
-        <button id="btn-create-next" class="btn btn-primary" style="flex:2" onclick="advanceCreateStep()">Continue →</button>
+        <button class="btn btn-secondary" onclick="renderCreateStep(1)" style="flex:1">← Kembali</button>
+        <button id="btn-create-next" class="btn btn-primary" style="flex:2" onclick="advanceCreateStep()">Lanjutkan →</button>
       </div>
     </div>
 
-    <!-- Step 3: Class -->
+    <!-- Langkah 3: Kelas -->
     <div class="create-step" id="create-step-3">
       <div class="text-center">
-        <div class="label" style="color:var(--gold-dim); margin-bottom:0.5rem;">Chapter III</div>
-        <h2 class="title-section" style="font-size:1.3rem; margin-bottom:0.25rem;">Choose Your Class</h2>
-        <p style="font-size:0.85rem; color:var(--ash); font-style:italic;">What path have you walked to become a champion?</p>
+        <div class="label" style="color:var(--gold-dim); margin-bottom:0.5rem;">Bab III</div>
+        <h2 class="title-section" style="font-size:1.3rem; margin-bottom:0.25rem;">Pilih Kelasmu</h2>
+        <p style="font-size:0.85rem; color:var(--ash); font-style:italic;">Jalan apa yang telah kamu tempuh untuk menjadi seorang juara?</p>
       </div>
 
       <div class="divider"><span class="divider-icon">⚜</span></div>
@@ -131,8 +131,8 @@
       <div class="class-grid" id="class-grid"></div>
 
       <div style="display:flex; gap:0.75rem; margin-top:0.5rem;">
-        <button class="btn btn-secondary" onclick="renderCreateStep(2)" style="flex:1">← Back</button>
-        <button class="btn btn-primary" onclick="advanceCreateStep()" style="flex:2">Begin Your Tale →</button>
+        <button class="btn btn-secondary" onclick="renderCreateStep(2)" style="flex:1">← Kembali</button>
+        <button class="btn btn-primary" onclick="advanceCreateStep()" style="flex:2">Mulai Kisahmu →</button>
       </div>
     </div>
 
@@ -140,13 +140,13 @@
 </main>
 
 <!-- ══════════════════════════════════════════════════════════
-     PAGE: EPISODE SELECTION
+     HALAMAN: PEMILIHAN EPISODE
      ══════════════════════════════════════════════════════════ -->
 <main id="page-episodes" class="page" role="main">
   <div class="panel episodes-panel">
     <div class="text-center" style="margin-bottom:1rem;">
-      <div class="label" style="color:var(--gold-dim); margin-bottom:0.25rem;">Choose Your Chronicle</div>
-      <h2 class="title-section" style="font-size:1.4rem;">Episode Select</h2>
+      <div class="label" style="color:var(--gold-dim); margin-bottom:0.25rem;">Pilih Kronikmu</div>
+      <h2 class="title-section" style="font-size:1.4rem;">Pilih Episode</h2>
     </div>
 
     <div class="divider"><span class="divider-icon">⚜</span></div>
@@ -156,39 +156,39 @@
     <div class="divider" style="margin-top:1rem;"><span class="divider-icon">✦</span></div>
 
     <div style="text-align:center;">
-      <button id="btn-episodes-back" class="btn btn-secondary">← Back to Character</button>
+      <button id="btn-episodes-back" class="btn btn-secondary">← Kembali ke Karakter</button>
     </div>
   </div>
 </main>
 
 <!-- ══════════════════════════════════════════════════════════
-     PAGE: GAMEPLAY
+     HALAMAN: PERMAINAN
      ══════════════════════════════════════════════════════════ -->
 <main id="page-game" class="page" role="main" style="padding:0; justify-content:flex-start; flex-direction:row;">
 
-  <!-- Mobile Header (hidden on desktop) -->
+  <!-- Header Mobile (tersembunyi di desktop) -->
   <header class="game-mobile-header" style="width:100%;">
-    <span style="font-family:var(--font-display); font-size:0.8rem; color:var(--gold);">Chronicles of Aelthar</span>
+    <span style="font-family:var(--font-display); font-size:0.8rem; color:var(--gold);">Kronik Aelthar</span>
     <div style="display:flex; gap:0.5rem;">
       <button class="btn btn-secondary" onclick="saveGame()" style="font-size:0.65rem; padding:0.4rem 0.7rem;">💾</button>
       <button class="btn btn-secondary" onclick="showPage('menu')" style="font-size:0.65rem; padding:0.4rem 0.7rem;">✕</button>
     </div>
   </header>
 
-  <!-- Sidebar -->
-  <aside class="game-sidebar" aria-label="Character info">
+  <!-- Bilah Samping -->
+  <aside class="game-sidebar" aria-label="Info karakter">
     <div class="sidebar-title">⚔ Aelthar ⚔</div>
 
-    <!-- Character portrait -->
+    <!-- Potret karakter -->
     <div class="char-portrait">
       <span class="portrait-icon" id="sidebar-portrait-icon">🧑</span>
-      <div class="char-name" id="sidebar-char-name">Adventurer</div>
-      <div class="char-tags" id="sidebar-char-tags">Human · Warrior</div>
+      <div class="char-name" id="sidebar-char-name">Petualang</div>
+      <div class="char-tags" id="sidebar-char-tags">Manusia · Prajurit</div>
     </div>
 
-    <!-- Stats -->
+    <!-- Statistik -->
     <div class="sidebar-section">
-      <div class="sidebar-section-title">Vitals</div>
+      <div class="sidebar-section-title">Kondisi</div>
       <div class="stat-bar-container">
 
         <div class="stat-row" id="stat-hp-row">
@@ -200,7 +200,7 @@
         </div>
 
         <div class="stat-row">
-          <span class="stat-label" style="font-size:0.55rem;">SOUL</span>
+          <span class="stat-label" style="font-size:0.55rem;">JIWA</span>
           <div class="stat-bar">
             <div class="stat-fill morality" id="stat-morality" style="width:50%"></div>
           </div>
@@ -210,46 +210,46 @@
       </div>
     </div>
 
-    <!-- Achievements in sidebar -->
+    <!-- Pencapaian di bilah samping -->
     <div class="sidebar-section">
-      <div class="sidebar-section-title">Endings Found</div>
+      <div class="sidebar-section-title">Akhiran Ditemukan</div>
       <div id="sidebar-achievements">
-        <div class="achievement-chip" style="font-style:italic;opacity:0.5;">None yet...</div>
+        <div class="achievement-chip" style="font-style:italic;opacity:0.5;">Belum ada...</div>
       </div>
     </div>
 
-    <!-- Actions -->
+    <!-- Aksi -->
     <div class="sidebar-actions">
-      <button id="btn-save" class="btn btn-secondary">💾 Save</button>
-      <button id="btn-achievements-game" class="btn btn-secondary">🏆 Endings</button>
-      <button id="btn-exit-game" class="btn btn-danger">✕ Exit</button>
+      <button id="btn-save" class="btn btn-secondary">💾 Simpan</button>
+      <button id="btn-achievements-game" class="btn btn-secondary">🏆 Akhiran</button>
+      <button id="btn-exit-game" class="btn btn-danger">✕ Keluar</button>
     </div>
   </aside>
 
-  <!-- Main Game Area -->
+  <!-- Area Permainan Utama -->
   <section class="game-main" id="game-main">
 
-    <!-- Scene header -->
+    <!-- Header adegan -->
     <header class="scene-header">
-      <div class="scene-location" id="scene-location">The Kingdom of Aelthar</div>
-      <h2 class="scene-title" id="scene-title">Loading...</h2>
+      <div class="scene-location" id="scene-location">Kerajaan Aelthar</div>
+      <h2 class="scene-title" id="scene-title">Memuat...</h2>
     </header>
 
-    <!-- Narration Panel -->
+    <!-- Panel Narasi -->
     <article
       class="panel narration-panel"
       id="narration-panel"
-      title="Click to skip typing"
+      title="Klik untuk melewati pengetikan"
       style="cursor:pointer;"
       aria-live="polite"
     >
-      <div class="narration-speaker" id="narration-speaker">Narrator</div>
+      <div class="narration-speaker" id="narration-speaker">Narator</div>
       <div class="narration-text" id="narration-text"></div>
     </article>
 
-    <!-- Choices -->
+    <!-- Pilihan -->
     <section class="choices-section" id="choices-section">
-      <div class="choices-label">What do you do?</div>
+      <div class="choices-label">Apa yang kamu lakukan?</div>
       <div class="choices-list" id="choices-list" role="list"></div>
     </section>
 
@@ -257,16 +257,16 @@
 </main>
 
 <!-- ══════════════════════════════════════════════════════════
-     PAGE: ENDING
+     HALAMAN: AKHIRAN
      ══════════════════════════════════════════════════════════ -->
 <main id="page-ending" class="page" role="main">
   <div class="panel ending-panel">
     <span class="ending-icon" id="ending-icon">📖</span>
 
-    <div class="ending-badge">Ending Reached</div>
-    <h2 class="ending-title" id="ending-title">The End</h2>
-    <div class="ending-name" id="ending-name">Ending: Unknown</div>
-    <div class="ending-rarity common" id="ending-rarity">common</div>
+    <div class="ending-badge">Akhiran Tercapai</div>
+    <h2 class="ending-title" id="ending-title">Tamat</h2>
+    <div class="ending-name" id="ending-name">Akhiran: Tidak Diketahui</div>
+    <div class="ending-rarity common" id="ending-rarity">biasa</div>
 
     <div class="divider"><span class="divider-icon">⚜</span></div>
 
@@ -275,23 +275,23 @@
     <div class="divider"><span class="divider-icon">✦</span></div>
 
     <div class="ending-actions">
-      <button id="btn-play-again" class="btn btn-primary">↺ Play Again</button>
-      <button id="btn-achievements-ending" class="btn btn-secondary">🏆 Endings</button>
-      <button id="btn-main-menu-ending" class="btn btn-secondary">⚔ Main Menu</button>
+      <button id="btn-play-again" class="btn btn-primary">↺ Main Lagi</button>
+      <button id="btn-achievements-ending" class="btn btn-secondary">🏆 Akhiran</button>
+      <button id="btn-main-menu-ending" class="btn btn-secondary">⚔ Menu Utama</button>
     </div>
   </div>
 </main>
 
 <!-- ══════════════════════════════════════════════════════════
-     PAGE: ACHIEVEMENTS
+     HALAMAN: PENCAPAIAN
      ══════════════════════════════════════════════════════════ -->
 <main id="page-achievements" class="page" role="main">
   <div class="panel achievements-panel">
     <div class="text-center" style="margin-bottom:1rem;">
-      <div class="label" style="color:var(--gold-dim); margin-bottom:0.25rem;">Deeds of Legend</div>
-      <h2 class="title-section" style="font-size:1.4rem;">Endings Discovered</h2>
+      <div class="label" style="color:var(--gold-dim); margin-bottom:0.25rem;">Perbuatan Legenda</div>
+      <h2 class="title-section" style="font-size:1.4rem;">Akhiran yang Ditemukan</h2>
       <p style="font-size:0.8rem; color:var(--ash); font-style:italic; margin-top:0.25rem;">
-        Every tale has many endings. Seek them all.
+        Setiap kisah memiliki banyak akhiran. Temukan semuanya.
       </p>
     </div>
 
@@ -302,12 +302,12 @@
     <div class="divider" style="margin-top:1rem;"><span class="divider-icon">✦</span></div>
 
     <div style="text-align:center;">
-      <button id="btn-achievements-back" class="btn btn-secondary">← Return</button>
+      <button id="btn-achievements-back" class="btn btn-secondary">← Kembali</button>
     </div>
   </div>
 </main>
 
-<!-- Scripts -->
+<!-- Skrip -->
 <script src="story.js"></script>
 <script src="script.js"></script>
 
